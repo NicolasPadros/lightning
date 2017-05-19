@@ -1,11 +1,21 @@
 var five = require("johnny-five");
-var board = new five.Board();
 
-// The board's pins will not be accessible until
-// the board has reported that it is ready
+var Galileo = require("galileo-io");
+
+var board = new five.Board({
+
+  io: new Galileo()
+
+});
+
+ 
+
+ 
+
 board.on("ready", function() {
-  console.log("Ready!");
 
   var led = new five.Led(13);
-  led.blink(500);
+
+  led.blink(2000);
+
 });
