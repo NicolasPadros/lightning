@@ -11,4 +11,11 @@ router.get('/home', function(req, res, next){
   res.render('home', {title: 'Lightning'});
 });
 
+/* POST request for the form */
+router.post('/home', function(req, res, next){
+    console.log('Username:' + req.body.username);
+    console.log('Password: ' + req.body.password);
+    return;
+});
+
 module.exports = router;
