@@ -6,6 +6,8 @@ var board = new five.Board({
 });
 
 board.on("ready", function() {
+    console.log("Setting up blink");
   var led = new five.Led(13);
+  console.log("Blink");
   led.blink(2000);
 });
