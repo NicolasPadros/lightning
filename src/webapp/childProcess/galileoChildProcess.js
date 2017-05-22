@@ -21,5 +21,6 @@ function runScript(scriptPath, callback) {
         var err = code === 0 ? null : new Error('exit code ' + code);
         callback(err);
     });
-
 }
+
+module.exports = runScript;

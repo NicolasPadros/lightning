@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var galileoChildProcess = require('./childProcess/galileoChildProcess');
+var blinkRunScript = require('./childProcess/galileoChildProcess');
 
 var app = express();
 
@@ -46,7 +46,7 @@ app.use(function(err, req, res, next) {
 });
 
 // Now we can run a script and invoke a callback when complete, e.g
-galileoChildProcess.runScript('./robotics/blink.js', function (err) {
+blinkRunScript('./robotics/blink.js', function (err) {
     if (err) throw err;
     console.log('finished running some-script.js');
 });
