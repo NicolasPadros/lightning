@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>LCD</title>
+
+<style>
+    h1, p {
+        font-family: "Arial";
+    } 
+    div.container {
+        width: 100%;
+        border: 1px solid gray;
+    }
+
+    header, footer {
+        padding: 1em;
+        color: white;
+        background-color: black;
+        clear: left;
+        text-align: center;
+    }
+
+    nav {
+        float: left;
+        max-width: 130px;
+        margin: 0;
+        padding: 1em;
+
+    }
+    
+    div.article-containter{
+        background-color:floralwhite;
+        overflow: hidden;
+    }
+
+    article {
+        margin-left: 0px;
+        border-left: 1px solid gray;
+        padding: 1em;
+        overflow: hidden;
+    }
+</style>
+    
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+           <h1>Lightning</h1>
+        </header>
+
+        <nav>
+          <p>Select the parameters desired for the proper working of the system according to your needs.</p>
+        </nav>
+
+        <div class="article-containter">
+        <article>
+          <h1>Photoresistor</h1>
+           Light intensity:  <input type="number" min="0" max="1000" step="50" value="0" name="light-intensity">
+        </article>
+        <article>
+          <h1>Sound Sensor</h1>
+           Decibels:  <input type="number" min="0" max="1000" step="50" value="0" name="decibels">
+        </article>
+        <article>
+          <h1>Time</h1>
+           Starting Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" name="light-intensity">
+           Finishing Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" name="light-intensity">   <!-- aca se podria poner que el valor del FH sea por default igual a SH +0.5 -->
+        </article>
+        </div>
+            
+        <footer>
+            <p>Tomas Fernandez Martinez & Nicolas Velazquez</p>
+        </footer>
+    </div>
+
+    
+    
+</body>
+</html>
