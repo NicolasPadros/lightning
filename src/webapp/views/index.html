@@ -55,22 +55,31 @@
           <p>Select the parameters desired for the proper working of the system according to your needs.</p>
         </nav>
 
-        <div class="article-containter">
-        <article>
-          <h1>Photoresistor</h1>
-           Light intensity:  <input type="number" min="0" max="1000" step="50" value="0" name="light-intensity">
-        </article>
-        <article>
-          <h1>Sound Sensor</h1>
-           Decibels:  <input type="number" min="0" max="1000" step="50" value="0" name="decibels">
-        </article>
-        <article>
-          <h1>Time</h1>
-           Starting Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" name="light-intensity">
-           Finishing Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" name="light-intensity">   <!-- aca se podria poner que el valor del FH sea por default igual a SH +0.5 -->
-        </article>
-        </div>
+        
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        
+            <div class="article-containter">
+            <article>
+              <h1>Photoresistor</h1>
+               Light intensity:  <input type="number" min="0" max="1000" step="50" value="0" name="light-intensity">
+            </article>
+            <article>
+              <h1>Sound Sensor</h1>
+               Decibels:  <input type="number" min="0" max="1000" step="50" value="0" name="decibels">
+            </article>
+            <article>
+              <h1>Time</h1>
+               Starting Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" name="start-hour">
+               Finishing Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" name="finish-hour">   <!-- aca se podria poner que el valor del FH sea por default igual a SH +0.5 -->
+            </article>
+                
+            <article>
+                <button type="submit">Submit</button>
+            </article>
+            </div>
             
+        </form>
+        
         <footer>
             <p>Tomas Fernandez Martinez & Nicolas Velazquez</p>
         </footer>
