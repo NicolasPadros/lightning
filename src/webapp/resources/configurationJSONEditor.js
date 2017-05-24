@@ -2,7 +2,7 @@ var jsonfile = require('jsonfile');
 
 module.exports = {
 
-    setConfiguration: function(file, luminosityParam, decibelsParam, startTimeParam, endTimeParam){
+    setConfiguration: function(luminosityParam, decibelsParam, startTimeParam, endTimeParam){
 
         var obj = {
             luminosity: luminosityParam,
@@ -11,14 +11,14 @@ module.exports = {
             endTime: endTimeParam
 
         };
-        jsonfile.writeFile(file, obj, function(err){
+        jsonfile.writeFile('configuration.json', obj, function(err){
             if(err === null) console.log("it was written correctly");
             else console.error(err);
         });
     },
 
-    readConfiguration: function(file){
-        jsonfile.readFile(file, function(err, obj){
+    readConfiguration: function(){
+        jsonfile.readFile('configuration.json', function(err, obj){
             if(err === null){
                 return obj;
             }else{
