@@ -9,7 +9,9 @@ board.on("ready", function() {
     console.log("Setting up blink");
     var led = new five.Led(13);
     console.log("Blink");
-    led.blink(2000);
+
+    var pace = 2000;
+    led.blink(pace);
 
     this.repl.inject({
     // Allow limited on/off control access to the
@@ -19,6 +21,14 @@ board.on("ready", function() {
     },
     off: function() {
       led.off();
+    },
+    faster: function(){
+      pace = pace -1000;
+      led.blink(pace);
+    },
+    slower: function(){
+      pace = pace + 1000;
+      led.blink(pace);
     }
   });
 
