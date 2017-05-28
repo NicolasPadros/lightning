@@ -1,9 +1,14 @@
 
 var five = require("johnny-five");
 var Galileo = require("galileo-io");
+var read = require('../helpers/configurationJSONEditor').readConfiguration;
 var board = new five.Board({
   io: new Galileo()
 });
+var luminosityParam;
+var debicelParam;
+var startHourParam;
+var finishHourParam;
 
 board.on("ready", function() {
     console.log("Setting up blink");
@@ -25,4 +30,20 @@ board.on("ready", function() {
     this.on("exit", function(){
         led.off();
     });
+
+    readParameters();
 });
+
+function readParameters(){
+    var json = read();
+
+    luminosityParam = json[0];
+    decibelParam = json[1];
+    startHourParam = json[2];
+    finishHourParam = json[3];
+
+    console.log(luminosityParam);
+    console.log(decibelParam);
+    console.log(startHourParam);
+    console.log(finishHourParam);
+}

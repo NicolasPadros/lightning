@@ -1,14 +1,20 @@
 
 var five = require("johnny-five");
 var Galileo = require("galileo-io");
+var read = require('../helpers/configurationJSONEditor').readConfiguration;
 var board;
 var photoresistor;
+var luminosityParam;
+var debicelParam;
+var startHourParam;
+var finishHourParam;
 
 board.on("ready", function() {
 
+    readParameters();
     console.log('Setting up sensors');
   var mic = new five.Sensor("A0");
-  var led = new five.Led(11);
+  var led = new five.Led(13);
   // Create a new `photoresistor` hardware instance.
   photoresistor = new five.Sensor({
     pin: "A2",
@@ -33,5 +39,19 @@ board.on("ready", function() {
 
   console.log('Everything is up and running');
 });
+
+function readParameters(){
+    var json = read();
+
+    luminosityParam = json[0];
+    decibelParam = json[1];
+    startHourParam = json[2];
+    finishHourParam = json[3];
+
+    console.log(luminosityParam);
+    console.log(decibelParam);
+    console.log(startHourParam);
+    console.log(finishHourParam);
+}
 
 module.exports = Sensors;
