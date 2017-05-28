@@ -11,19 +11,18 @@ module.exports = {
             endTime: endTimeParam
 
         };
-        jsonfile.writeFile('configuration.json', obj, function(err){
+        jsonfile.writeFile('/home/tomi/projects/lightning/src/webapp/helpers/configuration.json', obj, function(err){
             if(err === null) console.log("it was written correctly");
             else console.error(err);
         });
     },
 
     readConfiguration: function(){
-        jsonfile.readFile('configuration.json', function(err, obj){
-            if(err === null){
-                return obj;
-            }else{
-                console.error(err);
-            }
-        });
+        console.log('Attempting to read file...');
+        var path = '/home/tomi/projects/lightning/src/webapp/helpers/configuration.json';
+        var json = jsonfile.readFileSync(path);
+        console.log("It was read correctly");
+        console.log(json);
+        return json;
     }
 };

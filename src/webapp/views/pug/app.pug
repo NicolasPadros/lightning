@@ -37,25 +37,30 @@ html
   body
     .container
       header
-        h1 Lightning
+        h1 #{title}
       nav
         p
           | Select the parameters desired for the proper working of the system according to your needs.
-      .article-container
-        article
-          h1 Photoresistor
-          |            Light intensity:
-          input(type='number', min='0', max='1000', step='50', value='0', name='light-intensity')
-        article
-          h1 Sound Sensor
-          |            Decibels:
-          input(type='number', min='0', max='1000', step='50', value='0', name='decibels')
-        article
-          h1 Time
-          |            Starting Hour:
-          input(type='number', min='0', max='23.5', step='0.5', value='0', name='light-intensity')
-          |            Finishing Hour:
-          input(type='number', min='0', max='23.5', step='0.5', value='0', name='light-intensity')
-          // aca se podria poner que el valor del FH sea por default igual a SH +0.5
+      form#appFormId(name='appForm', action='/settings', method='post')
+        .article-containter
+          article
+            h1 Photoresistor
+            |                Light intensity:
+            input#lightIntensityId(type='number', min='0', max='1000', step='50', value='0', name='lightIntensity')
+          article
+            h1 Sound Sensor
+            |                Decibels:
+            input#decibelsId(type='number', min='0', max='1000', step='50', value='0', name='decibels')
+          article
+            h1 Time
+            |                Starting Hour:
+            input#startHourId(type='number', min='0', max='23.5', step='0.5', value='0', name='startHour')
+            |                Finishing Hour:
+            input#finishHourId(type='number', min='0', max='23.5', step='0.5', value='0', name='finishHour')
+            // aca se podria poner que el valor del FH sea por default igual a SH +0.5
+          article
+            button(type='submit') Submit
       footer
         p Tomas Fernandez Martinez & Nicolas Velazquez
+    script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+    script(type='text/javascript', src='/javascript/global.js')

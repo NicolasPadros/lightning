@@ -2,7 +2,5 @@
 ~~~~~~~~~~~~~~~~~~~~~ Temas Pendientes ~~~~~~~~~~~~~~~~~~~~~~
 
 - Hacer la view de la webapp
-- Definir órden de los parámetros
 - Terminar con el route
 - Chequear si se inicia el módulo sensors en el Galileo
-- RW del configuration.json
