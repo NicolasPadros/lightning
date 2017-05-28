@@ -11,6 +11,17 @@ board.on("ready", function() {
     console.log("Blink");
     led.blink(2000);
 
+    this.repl.inject({
+    // Allow limited on/off control access to the
+    // Led instance from the REPL.
+    on: function() {
+      led.on();
+    },
+    off: function() {
+      led.off();
+    }
+  });
+
     this.on("exit", function(){
         led.off();
     });
