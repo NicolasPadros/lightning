@@ -46,9 +46,9 @@ app.use(function(err, req, res, next) {
 });
 
 // Now we can run a script and invoke a callback when complete, e.g
-blinkRunScript('./robotics/blink.js', function (err) {
-    if (err) throw err;
-    console.log('finished running some-script.js');
-});
+// blinkRunScript('./robotics/blink.js', function (err) {
+//     if (err) throw err;
+//     console.log('finished running some-script.js');
+// });
 
 module.exports = app;
