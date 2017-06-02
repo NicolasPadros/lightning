@@ -15,13 +15,6 @@ console.log('Setting up sensors');
     freq: 250
   });
 
-  // Inject the `sensor` hardware into
-  // the Repl instance's context;
-  // allows direct command line access
-  board.repl.inject({
-    pot: photoresistor
-  });
-
   console.log('OK');
   // "data" get the current reading from the photoresistor
   photoresistor.on("data", function() {
