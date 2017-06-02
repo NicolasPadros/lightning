@@ -28,7 +28,7 @@ router.get('/settings', function(req, res, next){
 });
 
 router.get('/app', function(req, res, next){
-    res.render('pug/app');
+    res.render('pug/app', {title: 'Lightning'});
 });
 
 router.post('/settings', function(req, res, next){
