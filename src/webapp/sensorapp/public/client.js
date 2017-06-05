@@ -6,6 +6,8 @@
     var green = document.getElementById('green');
     var blue = document.getElementById('blue');
 
+    var button = document.getElementById('operateButton');
+
     // function emitValue(color, e) {
     //     socket.emit('rgb', {
     //         color: color,
@@ -21,7 +23,6 @@
     }
 
     function start(){
-        var button = document.getElementById('operateButton');
         var operate = button.value;
         socket.emit('operate',{
             value: operate
@@ -38,6 +39,8 @@
     sound.addEventListener('change', emitValue.bind(null, 'sound'));
     startHour.addEventListener('change', emitValue.bind(null, 'startHour'));
     finishHour.addEventListener('change', emitValue.bind(null, 'finishHour'));
+
+    button.addEventListener('click', start());
 
     socket.on('connect', function(data) {
         socket.emit('join', 'Client is connected!');
