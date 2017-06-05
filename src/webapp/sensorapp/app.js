@@ -24,6 +24,8 @@ board.on('ready', function() {
 
   var led = new five.Led(11);
 
+  var operate = false;
+
   var micFlag = false;
   var photoFlag = false;
   var timeFlag = false;
@@ -32,14 +34,16 @@ board.on('ready', function() {
 
   var mic = new five.Sensor("A0");
   mic.on("data", function() {
-      if(this.value < state.light && !photoFlag){
-        led.off();
-        console.log('Led is off because: ' + this.value + ' < ' + state.sound);
+      if(operate){
+          if(this.value < state.sound && !photoFlag){
+              led.off();
+              console.log('Led is off because: ' + this.value + ' < ' + state.sound);
+          }
+          else{
+              led.on();
+              console.log('Led is off because: ' + this.value + ' < ' + state.sound);
       }
-      else{
-        led.on();
-        console.log('Led is off because: ' + this.value + ' < ' + state.sound);
-      }
+    }
   });
 
   console.log('mic setup correctly');
@@ -48,14 +52,15 @@ board.on('ready', function() {
 
   var photoresistor = new five.Sensor({pin: "A2", freq: 250 });
   photoresistor.on("data", function() {
-    if(this.value < state.light && !micFlag){
-      led.off();
-      console.log('Led is off because: ' + this.value + ' < ' + state.light);
-    }
-    else{
-      led.on();
-      console.log('Led is on because: ' + this.value + ' < ' + state.light);
-    }
+      if(operate){
+          if(this.value < state.light && !micFlag){
+              led.off();
+              console.log('Led is off because: ' + this.value + ' < ' + state.light);
+          }else{
+              led.on();
+              console.log('Led is on because: ' + this.value + ' < ' + state.light);
+          }
+      }
   });
 
   console.log('photoresistor setup correctly');
