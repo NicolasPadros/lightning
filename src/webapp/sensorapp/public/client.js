@@ -2,9 +2,10 @@
 
 (function() {
     var socket = io.connect(window.location.hostname + ':' + 3000);
-    var red = document.getElementById('red');
-    var green = document.getElementById('green');
-    var blue = document.getElementById('blue');
+    var light = document.getElementById('light');
+    var sound = document.getElementById('sound');
+    var startHour = document.getElementById('startHour');
+    var finishHour = document.getElementById('finishHour');
 
     var button = document.getElementById('operateButton');
 
@@ -15,10 +16,10 @@
     //     });
     // }
 
-    function emitValue(device, e) {
+    function emitValue(device, value) {
         socket.emit('update', {
             device: device,
-            value: e.target.value
+            value: value
         });
     }
 
@@ -27,18 +28,23 @@
         socket.emit('operate',{
             value: operate
         });
-        button.innerHTML = 'Stop';
-        button.value = 'false';
+        if(button.value === 'false'){
+            button.innerHTML = 'Start';
+            button.value = 'true';
+        }else{
+            button.innerHTML = 'Stop';
+            button.value = 'false';
+        }
     }
 
     // red.addEventListener('change', emitValue.bind(null, 'red'));
     // blue.addEventListener('change', emitValue.bind(null, 'blue'));
     // green.addEventListener('change', emitValue.bind(null, 'green'));
 
-    light.addEventListener('change', emitValue.bind(null, 'light'));
-    sound.addEventListener('change', emitValue.bind(null, 'sound'));
-    startHour.addEventListener('change', emitValue.bind(null, 'startHour'));
-    finishHour.addEventListener('change', emitValue.bind(null, 'finishHour'));
+    light.addEventListener('change', emitValue('light', light.value));
+    sound.addEventListener('change', emitValue('sound', sound.value));
+    startHour.addEventListener('change', emitValue('startHour', startHour.value));
+    finishHour.addEventListener('change', emitValue('finishHour', finishHour.value));
 
     button.addEventListener('click', start());
 
