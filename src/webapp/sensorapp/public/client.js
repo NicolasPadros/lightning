@@ -42,10 +42,10 @@
     // blue.addEventListener('change', emitValue.bind(null, 'blue'));
     // green.addEventListener('change', emitValue.bind(null, 'green'));
 
-    light.addEventListener('change', emitValue(null, 'light'));
-    sound.addEventListener('change', emitValue(null, 'sound'));
-    startHour.addEventListener('change', emitValue(null, 'startHour'));
-    finishHour.addEventListener('change', emitValue(null, 'finishHour'));
+    light.addEventListener('change', emitValue.bind(null, 'light'));
+    sound.addEventListener('change', emitValue.bind(null, 'sound'));
+    startHour.addEventListener('change', emitValue.bind(null, 'startHour'));
+    finishHour.addEventListener('change', emitValue.bind(null, 'finishHour'));
 
     button.addEventListener('click', start());
 
