@@ -16,7 +16,8 @@
     //     });
     // }
 
-    function emitValue(device, value) {
+    function emitValue(device, e) {
+        alert('emitting value');
         socket.emit('update', {
             device: device,
             value: e.target.value
