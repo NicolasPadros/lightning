@@ -32,7 +32,7 @@ board.on('ready', function() {
 
   console.log('Setting up mic');
 
-  var mic = new five.Sensor("A0");
+  var mic = new five.Sensor({pin: "A0", freq: 2000});
   mic.on("data", function() {
       if(operate){
           if(this.value < state.sound && !photoFlag){
@@ -50,7 +50,7 @@ board.on('ready', function() {
 
   console.log('Setting up photoresistor');
 
-  var photoresistor = new five.Sensor({pin: "A2", freq: 250 });
+  var photoresistor = new five.Sensor({pin: "A2", freq: 2000 });
   photoresistor.on("data", function() {
       if(operate){
           if(this.value < state.light && !micFlag){
