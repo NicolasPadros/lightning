@@ -79,10 +79,12 @@ board.on('ready', function() {
     });
 
     client.on('update', function(data) {
-      state.light = data.light === 'light' ? data.value : state.light;
-      state.sound = data.sound === 'sound' ? data.value : state.sound;
-      state.startHour = data.startHour === 'startHour' ? data.value : state.startHour;
-      state.finishHour = data.finishHour === 'finishHour' ? data.value : state.finishHour;
+      state.light = data.device === 'light' ? data.value : state.light;
+      state.sound = data.device === 'sound' ? data.value : state.sound;
+      state.startHour = data.device === 'startHour' ? data.value : state.startHour;
+      state.finishHour = data.device === 'finishHour' ? data.value : state.finishHour;
+
+      printParameters(state.light, state.sound);
 
       client.emit('update', data);
       client.broadcast.emit('update', data);
@@ -99,6 +101,11 @@ board.on('ready', function() {
   console.log('Socket setup correctly');
   console.log('Board setup correctly');
 });
+
+function printParameters(light, sound){
+    console.log('Light: ' + light);
+    console.log('Sound: ' + sound);
+}
 
 function checkDate(state){
     var date = new Date();

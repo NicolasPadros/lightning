@@ -19,7 +19,7 @@
     function emitValue(device, value) {
         socket.emit('update', {
             device: device,
-            value: value
+            value: e.target.value
         });
     }
 
@@ -29,8 +29,8 @@
             value: operate
         });
         if(button.value === 'false'){
-            button.innerHTML = 'Start';
-            button.value = 'true';
+            button.innerHTML = 'Stop';
+            button.value = 'false';
         }else{
             button.innerHTML = 'Stop';
             button.value = 'false';
@@ -41,10 +41,10 @@
     // blue.addEventListener('change', emitValue.bind(null, 'blue'));
     // green.addEventListener('change', emitValue.bind(null, 'green'));
 
-    light.addEventListener('change', emitValue('light', light.value));
-    sound.addEventListener('change', emitValue('sound', sound.value));
-    startHour.addEventListener('change', emitValue('startHour', startHour.value));
-    finishHour.addEventListener('change', emitValue('finishHour', finishHour.value));
+    light.addEventListener('change', emitValue(null, 'light'));
+    sound.addEventListener('change', emitValue(null, 'sound'));
+    startHour.addEventListener('change', emitValue(null, 'startHour'));
+    finishHour.addEventListener('change', emitValue(null, 'finishHour'));
 
     button.addEventListener('click', start());
 
