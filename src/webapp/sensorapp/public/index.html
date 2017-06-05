@@ -23,11 +23,11 @@
             <div class="article-containter">
             <article>
               <h1>Photoresistor</h1>
-               Light intensity:  <input type="number" min="0" max="1023" step="50" value="0" id="light">
+               Light intensity:  <input type="range" min="0" max="1023" step="1" value="0" id="light">
             </article>
             <article>
               <h1>Sound Sensor</h1>
-               Decibels:  <input type="number" min="0" max="1023" step="50" value="0" id="sound">
+               Decibels:  <input type="range" min="0" max="1023" step="1" value="0" id="sound">
             </article>
             <article>
               <h1>Time</h1>
@@ -47,7 +47,7 @@
         </footer>
     </div>
 
-<script type="text/javascript" src="./jquery-3.2.0.min.js"></script>
+<script src="./jquery-3.2.0.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="./client.js"></script>
 
