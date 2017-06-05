@@ -89,6 +89,7 @@ board.on('ready', function() {
     });
 
     client.on('operate', function(data){
+        console.log("Operate was emitted");
         operate = Boolean(data.value);
         if(operate === false) led.off();
     });
