@@ -6,23 +6,41 @@
     var green = document.getElementById('green');
     var blue = document.getElementById('blue');
 
-    function emitValue(color, e) {
-        socket.emit('rgb', {
-            color: color,
+    // function emitValue(color, e) {
+    //     socket.emit('rgb', {
+    //         color: color,
+    //         value: e.target.value
+    //     });
+    // }
+
+    function emitValue(device, e) {
+        socket.emit('update', {
+            device: device,
             value: e.target.value
         });
     }
 
-    red.addEventListener('change', emitValue.bind(null, 'red'));
-    blue.addEventListener('change', emitValue.bind(null, 'blue'));
-    green.addEventListener('change', emitValue.bind(null, 'green'));
+    // red.addEventListener('change', emitValue.bind(null, 'red'));
+    // blue.addEventListener('change', emitValue.bind(null, 'blue'));
+    // green.addEventListener('change', emitValue.bind(null, 'green'));
+
+    light.addEventListener('change', emitValue.bind(null, 'light'));
+    sound.addEventListener('change', emitValue.bind(null, 'sound'));
+    startHour.addEventListener('change', emitValue.bind(null, 'startHour'));
+    finishHour.addEventListener('change', emitValue.bind(null, 'finishHour'));
 
     socket.on('connect', function(data) {
         socket.emit('join', 'Client is connected!');
     });
 
+    // socket.on('rgb', function(data) {
+    //     var color = data.color;
+    //     document.getElementById(color).value = data.value;
+    // });
+
     socket.on('rgb', function(data) {
-        var color = data.color;
-        document.getElementById(color).value = data.value;
+        var device = data.device;
+        document.getElementById(device).value = data.value;
     });
+
 }());
