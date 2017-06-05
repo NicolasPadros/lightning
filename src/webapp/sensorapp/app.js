@@ -88,6 +88,11 @@ board.on('ready', function() {
       client.broadcast.emit('update', data);
     });
 
+    client.on('operate', function(data){
+        operate = Boolean(data.value);
+        if(operate === false) led.off();
+    });
+
   });
 
   console.log('Socket setup correctly');

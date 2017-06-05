@@ -20,6 +20,16 @@
         });
     }
 
+    function start(){
+        var button = document.getElementById('operateButton');
+        var operate = button.value;
+        socket.emit('operate',{
+            value: operate
+        });
+        button.innerHTML = 'Stop';
+        button.value = 'false';
+    }
+
     // red.addEventListener('change', emitValue.bind(null, 'red'));
     // blue.addEventListener('change', emitValue.bind(null, 'blue'));
     // green.addEventListener('change', emitValue.bind(null, 'green'));
