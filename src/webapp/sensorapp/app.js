@@ -22,7 +22,7 @@ board.on('ready', function() {
     light: 1, sound: 1, startHour: 0, finishHour: 0
   };
 
-  var pwmLed = new five.Led(11);
+  var led = new five.Led(11);
 
   var micFlag = false;
   var photoFlag = false;
