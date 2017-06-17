@@ -9,6 +9,6 @@ board.on("ready", function() {
   var led = new five.Led(11);
 
   mic.on("data", function() {
-    led.brightness(this.value >> 2);
+     console.log(this.value);
   });
 });
