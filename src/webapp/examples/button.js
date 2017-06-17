@@ -6,21 +6,37 @@ var board = new five.Board({
 
 board.on("ready", function() {
 
-  // Create a new `button` hardware instance.
-  var button = new five.Button({
-      pin: 2,
-      invert: true
+  // Create a new `button` hardware instance
+  button = new five.Button({
+    board: board,
+    pin: 2,
+    holdtime: 1000,
+    invert: false // Default: "false".  Set to "true" if button is Active-Low
   });
 
+  // Inject the `button` hardware into
+  // the Repl instance's context;
+  // allows direct command line access
+  board.repl.inject({
+    button: button
+  });
+
+  // Button Event API
+
+  // "down" the button is pressed
+  button.on("down", function() {
+    console.log("down");
+  });
+
+  // "hold" the button is pressed for specified time.
+  //        defaults to 500ms (1/2 second)
+  //        set
   button.on("hold", function() {
-    console.log( "Button held" );
+    console.log("hold");
   });
 
-  button.on("press", function() {
-    console.log( "Button pressed" );
-  });
-
-  button.on("release", function() {
-    console.log( "Button released" );
+  // "up" the button is released
+  button.on("up", function() {
+    console.log("up");
   });
 });
