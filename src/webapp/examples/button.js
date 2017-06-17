@@ -7,7 +7,10 @@ var board = new five.Board({
 board.on("ready", function() {
 
   // Create a new `button` hardware instance.
-  var button = new five.Button(2);
+  var button = new five.Button({
+      pin: 2,
+      invert: true
+  });
 
   button.on("hold", function() {
     console.log( "Button held" );
