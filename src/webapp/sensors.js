@@ -10,12 +10,11 @@ var board = new five.Board({
 var pins = {
     photoresistor: "A2",
     microphone: "A0",
-    led1: 11,
-    led2: 12,
-    led3: 13,
-    buzzer: 3,
+    led1: 4,
+    led2: 5,
+    led3: 6,
+    buzzer: 8,
     button: 2,
-    alarmLed: 1
 };
 
 /* Cuando el Galileo Board está listo para operar, ejecuta la functión */
@@ -33,12 +32,12 @@ board.on('ready', function() {
     });
 
     var passiveBuzzer = new five.Piezo(pins.buzzer);
-    var alarmLedOn = new five.Led(pins.alarmLed);
+    var alarmLedOn = new five.Led([pins.led1, pins.led2, pins.led3]);
 
     var button = new five.Button(pins.button);
     button.on("down", function(){
         console.log("button was pressed");
-        passiveBuzzer.on();
+        passiveBuzzer.play();
         alarmLed.on();
     });
 
