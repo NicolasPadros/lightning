@@ -17,7 +17,7 @@
           <p>Select the parameters desired for the proper working of the system according to your needs.</p>
         </nav>
 
-        
+
         <form id="appFormId">
 
             <div class="article-containter">
@@ -27,12 +27,12 @@
                 <article>
                   <h1>Photoresistor</h1>
                    Light intensity:  <input type="range" min="0" max="1023" step="1" value="0" id="light">
-                    <input type="checkbox" name="option1" value="EnablePhoto" checked> Enable/Disable<br>
+                    <input id="lightSystemCheckBox" type="checkbox" name="option1" value="EnablePhoto"> Enable/Disable<br>
 
                     <br>
-                  <input type="radio" name="gender" value="led1">Led 1<br>
-                  <input type="radio" name="gender" value="led2">Led 2<br>
-                  <input type="radio" name="gender" value="led3">Led 3
+                  <input id="led1Radio" type="radio" name="gender" value="led1">Led 1<br>
+                  <input id="led2Radio" type="radio" name="gender" value="led2">Led 2<br>
+                  <input id="led3Radio" type="radio" name="gender" value="led3">Led 3
 
                 </article>
                 <article>
@@ -42,16 +42,16 @@
                 </article>
                 <article>
                   <h1>Alarm</h1>
-                   Sound Sensor Decibels:  <input type="range" min="500" max="1023" step="1" value="0" id="sound"> 
-                    <input type="checkbox" name="option1" value="EnableAlarm" checked> Enable/Disable<br>
+                   Sound Sensor Decibels:  <input type="range" min="500" max="1023" step="1" value="0" id="sound">
+                    <input id="alarmSystemCheckbox" type="checkbox" name="option1" value="EnableAlarm"> Enable/Disable<br>
                     <br>
-                    <input type="checkbox" name="option1" value="ActiveBuzzer" checked> Active Buzzer<br>
-                    <input type="checkbox" name="option2" value="RGBLed" checked> RGB Led<br>
+                    <input id="activeBuzzerCheckbox" type="checkbox" name="option1" value="ActiveBuzzer"> Active Buzzer<br>
+                    <input id="alarmLedCheckbox" type="checkbox" name="option2" value="RGBLed"> RGB Led<br>
                 </article>
 
                 <article>
-                    <button class="button" type="submit">Submit</button>
-                    <button class="button" type="submit">Default</button>
+                    <button id="saveButton" class="button" type="submit">Save</button>
+                    <button id="defaultButton" class="button" type="submit">Default</button>
                 </article>
             </div>
 

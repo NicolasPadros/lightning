@@ -6,7 +6,11 @@ var board = new five.Board({
   io: new Galileo()
 });
 
+function setLed(){
+    led = new five.Led(13);
+    led.blink();
+}
+
 board.on("ready", function() {
-  var led = new five.Led(13);
-  led.blink();
+  setLed();
 });

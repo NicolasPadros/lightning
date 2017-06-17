@@ -1,6 +1,16 @@
 
 ~~~~~~~~~~~~~~~~~~~~~ Temas Pendientes ~~~~~~~~~~~~~~~~~~~~~~
 
-- Hacer la view de la webapp
-- Terminar con el route
-- Chequear si se inicia el módulo sensors en el Galileo
+- Sonido es solo de alarma
+
+~~~~~ Alarma
+
+- Buzzer
+- Sonido
+- Luz
+- Button
+
+~~~~~ Luz
+
+- Photo resistor
+- Leds

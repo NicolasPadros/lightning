@@ -4,17 +4,15 @@
     var socket = io.connect(window.location.hostname + ':' + 3000);
     var light = document.getElementById('light');
     var sound = document.getElementById('sound');
-    var startHour = document.getElementById('startHour');
-    var finishHour = document.getElementById('finishHour');
-
-    var button = document.getElementById('operateButton');
-
-    // function emitValue(color, e) {
-    //     socket.emit('rgb', {
-    //         color: color,
-    //         value: e.target.value
-    //     });
-    // }
+    var led1Radio = document.getElementById();
+    var led2Radio = document.getElementById();
+    var led3Radio =  document.getElementById();
+    var activeBuzzerCheckbox =  document.getElementById();
+    var rgbLedCheckbox =  document.getElementById();
+    var activeLightSystemCheckBox =  document.getElementById();
+    var activeAlarmSystemCheckbox =  document.getElementById();
+    var saveButton = document.getElementById();
+    var defaultButton = document.getElementById();
 
     function emitValue(device, e) {
         alert('emitting value');
@@ -24,39 +22,31 @@
         });
     }
 
-    function start(){
-        var operate = button.value;
-        socket.emit('operate',{
-            value: operate
+    function emitChecked(emitValue, e){
+        socket.emit(emitValue, {
+            value: e.target.checked
         });
-        if(button.value === 'false'){
-            button.innerHTML = 'Stop';
-            button.value = 'false';
-        }else{
-            button.innerHTML = 'Stop';
-            button.value = 'false';
-        }
     }
 
-    // red.addEventListener('change', emitValue.bind(null, 'red'));
-    // blue.addEventListener('change', emitValue.bind(null, 'blue'));
-    // green.addEventListener('change', emitValue.bind(null, 'green'));
+    function emitButtonValue(emitValue, e){
+        socket.emit(emitValue, {
+            value: e.target.value
+        });
+    }
 
     light.addEventListener('change', emitValue.bind(null, 'light'));
     sound.addEventListener('change', emitValue.bind(null, 'sound'));
-    startHour.addEventListener('change', emitValue.bind(null, 'startHour'));
-    finishHour.addEventListener('change', emitValue.bind(null, 'finishHour'));
+    activeBuzzerCheckbox.addEventListener('change', emitChecked('toggleBuzzer', 'activeBuzzerCheckbox'));
+    rgbLedCheckbox.addEventListener('change', emitChecked('toggleAlarmLed','rgbLedCheckbox'));
+    activeLightSystemCheckBox.addEventListener('change', emitChecked('toggleLightSystem', 'lightSystemCheckBox'));
+    activeAlarmSystemCheckBox.addEventListener('change', emitChecked('toggleAlarmSystem', 'alarmSystemCheckbox'));
+    saveButton.addEventListener('click', emitButtonValue('saveValues', 'saveButton'));
+    defaultButton.addEventListener('click', emitButtonValue('defaultValues', 'defaultButton'));
 
-    button.addEventListener('click', start());
 
     socket.on('connect', function(data) {
         socket.emit('join', 'Client is connected!');
     });
-
-    // socket.on('rgb', function(data) {
-    //     var color = data.color;
-    //     document.getElementById(color).value = data.value;
-    // });
 
     socket.on('rgb', function(data) {
         var device = data.device;
@@ -66,7 +56,7 @@
 }());
 
 
-/* When the user clicks on the button, 
+/* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");

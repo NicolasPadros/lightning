@@ -10,116 +10,129 @@ var board = new five.Board({
      io: new Galileo()
 });
 
-app.use(express.static(__dirname + '/public'));
+var state = {
+  light: 1, sound: 1
+};
+
+var pins = {
+    photoresistor: "A2",
+    microphone: "A0",
+    led1: 11,
+    led2: 12,
+    led3: 13,
+    buzzer: 3,
+    button: 2,
+    alarmLed: 1
+};
+
+var photoresistor = null;
+var mic = null;
+var button = null; /* Apaga la alarma */
+var alarmLed = null; /* Se prende al activarse la alarma*/
+var passiveBuzzer = null; /* Se prende al activarse la alarma */
+var led = new five.Led(pins.led1); /* Luz dependiente del sistema de luces */
+var lightSystemActive = false; /* Señala si el sistema de luces está activo o no */
+var alarmSystemActive = false; /* Señala si el sistema de alarma está activo o no */
+var buzzerOn = false;
+var alarmLedOn = false;
+
+app.use(express.static(__dirname + '/public')); /* Usa todos los recursos estáticos del directorio public*/
+
+/* Responda al request del url -  Al entrar a "https://localhost:8080" va a responder dando el index.html*/
 app.get('/', function(req, res, next) {
   res.sendFile('./index.html');
 });
 
-app.post('/settings', function(req, res, next){
-
-});
-
-app.get('/settings', function(req, res, next){
-
-});
-
+/* Cuando el Galileo Board está listo para operar, ejecuta la functión */
 board.on('ready', function() {
-  console.log('Setting up board');
 
-  var state = {
-    light: 1, sound: 1, startHour: 0, finishHour: 0
-  };
+    console.log('Setting up photoresistor');
 
-  var button = null;
-  var alarmLed = null;
-  var passiveBuzzer = null;
+    /* Inicializo el photoresistor en el Pin y con la frecuencia en la que va a recabar datos */
+    photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 2000 });
 
-  var led = new five.Led(11);
+    /* función que se ejecuta cuando el photoresistor recaba información*/
+    photoresistor.on("data", function() {
 
-  var operate = false;
+        var turnLightOn = this.value < state.light;
+        if(lightSystemActive && turnLightOn){
+            led.on();
+            console.log('Led is on because: ' + this.value + ' < ' +  state.light);
+        }
+    });
 
-  var micFlag = false;
-  var photoFlag = false;
-  var timeFlag = false;
+    console.log('Setting up microphone');
 
-  console.log('Setting up mic');
+    mic = new five.Sensor({pin: pins.microphone, freq: 2000});
+    mic.on("data", function() {
 
-  var mic = new five.Sensor({pin: "A0", freq: 2000});
-  mic.on("data", function() {
-      if(operate){
-          var active = this.value < state.sound;
-          if(active && !photoFlag){
-              led.off();
-              console.log('Led is off because: ' + this.value + ' < ' + state.sound);
-          }
-          else{
-              led.on();
-              console.log('Led is on because: ' + this.value + ' < ' + state.sound);
-      }
-    }
-  });
+        var turnAlarmOn = this.value < state.sound;
+        if(alarmSystemActive && turnAlarmOn){
+            console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
+            if(buzzerOn){
+                passiveBuzzer.play();
+            }
+            if(alarmLedOn){
+                alarmLed.on();
+            }
+        }
+    });
 
-  console.log('mic setup correctly');
+    console.log('Setting up button');
 
-  console.log('Setting up photoresistor');
+    button = new five.Button(pins.button);
+    button.on("down", function(){
+        console.log("If alarm is active, turn it off");
+    });
 
-  var photoresistor = new five.Sensor({pin: "A2", freq: 2000 });
-  photoresistor.on("data", function() {
-      if(operate){
-          var active = this.value < state.sound;
-          if(active && !micFlag){
-              led.off();
-              console.log('Led is off because: ' + this.value + ' < ' + state.light);
-          }else{
-              led.on();
-              console.log('Led is on because: ' + this.value + ' < ' + state.light);
-          }
-      }
-  });
+    console.log('Setting up buzzer');
+    passiveBuzzer = new five.Piezo(pins.buzzer);
 
-  console.log('photoresistor setup correctly');
+    console.log('Setting up alarmLed');
+    // set up alarmLed
 
-  var checkTime = function(){
-      var timeFlag = checkDate(state);
-  };
 
-  setInterval(checkTime, 60 * 1000 * 2);
+    console.log('Setting up socket');
 
-  console.log('Setting up socket');
-
-  io.on('connection', function(client) {
-    client.on('join', function(handshake) {
-      console.log(handshake);
+    io.on('connection', function(client) {
+        client.on('join', function(handshake) {
+        console.log(handshake);
     });
 
     client.on('update', function(data) {
-      state.light = data.device === 'light' ? data.value : state.light;
-      state.sound = data.device === 'sound' ? data.value : state.sound;
-      state.startHour = data.device === 'startHour' ? data.value : state.startHour;
-      state.finishHour = data.device === 'finishHour' ? data.value : state.finishHour;
+        state.light = data.device === 'light' ? data.value : state.light;
+        state.sound = data.device === 'sound' ? data.value : state.sound;
 
-      printParameters(state.light, state.sound);
-
-      client.emit('update', data);
-      client.broadcast.emit('update', data);
+        client.emit('update', data);
+        client.broadcast.emit('update', data);
     });
 
-    client.on('operate', function(data){
-        console.log("Operate was emitted");
-        operate = Boolean(data.value);
-        if(operate === false) led.off();
+    client.on('toggleAlarmSystem', function(data) {
+        alarmSystemActive = data.value;
     });
 
-    client.on('shutAlarm', function(data){
-        console.log("The button was pressed");
-
+    client.on('toggleLightSystem', function(data){
+        lightSystemActive = data.value;
     });
 
-    client.on('activeBuzzer', function(data){
-
+    client.on('toggleBuzzer', function(data){
+        buzzerOn = data.value;
     });
 
-    client.on('activeAlarmLed', function(data){
+    client.on('toggleAlarmLed', function(data){
+        alarmLedOn = data.value;
+    });
+
+    client.on('defaultValues', function(){
+        lightSystemActive = false;
+        alarmSystemActive = false;
+        buzzerOn = false;
+        alarmLedOn = false;
+        state.light = 1;
+        state.sound = 1;
+    });
+
+    client.on('saveValues', function(data){
 
     });
   });
