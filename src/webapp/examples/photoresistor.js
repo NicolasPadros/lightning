@@ -1,3 +1,5 @@
+/* Cuanto más oscuro, mas alto el valor y viceversa */
+
 var five = require("johnny-five");
 var Galileo = require("galileo-io");
 var board = new five.Board({
