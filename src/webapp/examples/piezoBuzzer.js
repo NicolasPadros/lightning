@@ -14,7 +14,7 @@ board.on("ready", function() {
         piezo = new five.Piezo(3);
     },
     off: function(){
-        piezo = null;
+        piezo.off();
     }
   });
 
