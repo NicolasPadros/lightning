@@ -23,10 +23,6 @@ board.on('ready', function() {
 
     var photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 5000 });
 
-    var led1 = new five.Led(pins.led1);
-    var led2 = new five.Led(pins.led2);
-    var led3 = new five.Led(pins.led3);
-
     photoresistor.on("data", function() {
         console.log(this.value);
     });
