@@ -11,7 +11,7 @@ board.on("ready", function() {
     board: board,
     pin: 2,
     holdtime: 1000,
-    invert: false // Default: "false".  Set to "true" if button is Active-Low
+    invert: true // Default: "false".  Set to "true" if button is Active-Low
   });
 
   // Inject the `button` hardware into
