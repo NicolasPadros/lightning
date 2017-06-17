@@ -32,7 +32,7 @@ board.on('ready', function() {
     });
 
     var passiveBuzzer = new five.Piezo(pins.buzzer);
-    var alarmLedOn = new five.Led([pins.led1, pins.led2, pins.led3]);
+    var alarmLed = new five.Led([pins.led1, pins.led2, pins.led3]);
 
     var button = new five.Button(pins.button);
     button.on("down", function(){
