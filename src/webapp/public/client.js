@@ -1,49 +1,72 @@
-// client.js
+var socket;
+var light;
+var sound;
+var led1Radio;
+var led2Radio;
+var led3Radio;
+var activeBuzzerCheckbox;
+var rgbLedCheckbox;
+var activeLightSystemCheckBox;
+var activeAlarmSystemCheckBox;
+var saveButton;
+var defaultButton;
 
-(function() {
-    var socket = io.connect(window.location.hostname + ':' + 3000);
-    var light = document.getElementById('light');
-    var sound = document.getElementById('sound');
-    var led1Radio = document.getElementById();
-    var led2Radio = document.getElementById();
-    var led3Radio =  document.getElementById();
-    var activeBuzzerCheckbox =  document.getElementById();
-    var rgbLedCheckbox =  document.getElementById();
-    var activeLightSystemCheckBox =  document.getElementById();
-    var activeAlarmSystemCheckbox =  document.getElementById();
-    var saveButton = document.getElementById();
-    var defaultButton = document.getElementById();
 
-    function emitValue(device, e) {
-        alert('emitting value');
-        socket.emit('update', {
-            device: device,
-            value: e.target.value
-        });
-    }
+$(document).ready(function(){
+    socket = io.connect(window.location.hostname + ':' + 3000);
 
-    function emitChecked(emitValue, e){
-        socket.emit(emitValue, {
-            value: e.target.checked
-        });
-    }
+    prepareDOMVariables();
+    //
+    addEventListeners();
+    //
+    setSocketActions();
+});
 
-    function emitButtonValue(emitValue, e){
-        socket.emit(emitValue, {
-            value: e.target.value
-        });
-    }
+function prepareDOMVariables(){
+    light = document.getElementById('light');
+    sound = document.getElementById('sound');
+    led1Radio = document.getElementById('led1Radio');
+    led2Radio = document.getElementById('led2Radio');
+    led3Radio =  document.getElementById('led3Radio');
+    activeBuzzerCheckbox =  document.getElementById('activeBuzzerCheckbox');
+    rgbLedCheckbox =  document.getElementById('alarmLedCheckbox');
+    activeLightSystemCheckBox =  document.getElementById('lightSystemCheckBox');
+    activeAlarmSystemCheckBox =  document.getElementById('alarmSystemCheckbox');
+    saveButton = document.getElementById('saveButton');
+    defaultButton = document.getElementById('defaultButton');
+}
 
+function emitChecked(emitValue, e){
+    socket.emit(emitValue, {
+        value: e.target.checked
+    });
+}
+
+function emitValue(color, e) {
+    socket.emit('rgb', {
+        color: color,
+        value: e.target.value
+    });
+}
+
+function emitButtonValue(emitValue, e){
+    socket.emit(emitValue, {
+        value: e.target.value
+    });
+}
+
+function addEventListeners(){
     light.addEventListener('change', emitValue.bind(null, 'light'));
     sound.addEventListener('change', emitValue.bind(null, 'sound'));
-    activeBuzzerCheckbox.addEventListener('change', emitChecked('toggleBuzzer', 'activeBuzzerCheckbox'));
-    rgbLedCheckbox.addEventListener('change', emitChecked('toggleAlarmLed','rgbLedCheckbox'));
-    activeLightSystemCheckBox.addEventListener('change', emitChecked('toggleLightSystem', 'lightSystemCheckBox'));
-    activeAlarmSystemCheckBox.addEventListener('change', emitChecked('toggleAlarmSystem', 'alarmSystemCheckbox'));
-    saveButton.addEventListener('click', emitButtonValue('saveValues', 'saveButton'));
-    defaultButton.addEventListener('click', emitButtonValue('defaultValues', 'defaultButton'));
+    activeBuzzerCheckbox.addEventListener('change', emitChecked.bind(null, 'toggleBuzzer'));
+    rgbLedCheckbox.addEventListener('change', emitChecked.bind(null,'toggleAlarmLed'));
+    activeLightSystemCheckBox.addEventListener('change', emitChecked.bind(null, 'toggleLightSystem'));
+    activeAlarmSystemCheckBox.addEventListener('change', emitChecked.bind(null, 'toggleAlarmSystem'));
+    saveButton.addEventListener('click', emitButtonValue.bind(null, 'saveValues'));
+    defaultButton.addEventListener('click', emitButtonValue.bind(null, 'defaultValues'));
+}
 
-
+function setSocketActions(){
     socket.on('connect', function(data) {
         socket.emit('join', 'Client is connected!');
     });
@@ -52,8 +75,7 @@
         var device = data.device;
         document.getElementById(device).value = data.value;
     });
-
-}());
+}
 
 
 /* When the user clicks on the button,
@@ -75,4 +97,4 @@ window.onclick = function(event) {
       }
     }
   }
-}
+};

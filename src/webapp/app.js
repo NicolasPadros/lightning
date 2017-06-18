@@ -22,7 +22,11 @@ var pins = {
     led3: 13,
     buzzer: 3,
     button: 2,
-    alarmLed: 1
+    alarmLed: {
+        red: 6,
+        green: 5,
+        blue: 3
+    }
 };
 
 var photoresistor = null;
@@ -33,8 +37,8 @@ var passiveBuzzer = null; /* Se prende al activarse la alarma */
 var led = new five.Led(pins.led1); /* Luz dependiente del sistema de luces */
 var lightSystemActive = false; /* Señala si el sistema de luces está activo o no */
 var alarmSystemActive = false; /* Señala si el sistema de alarma está activo o no */
-var buzzerOn = false;
-var alarmLedOn = false;
+var buzzerActive = false;
+var alarmLedActive = false;
 
 app.use(express.static(__dirname + '/public')); /* Usa todos los recursos estáticos del directorio public*/
 
@@ -69,29 +73,41 @@ board.on('ready', function() {
         var turnAlarmOn = this.value < state.sound;
         if(alarmSystemActive && turnAlarmOn){
             console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
-            if(buzzerOn){
-                passiveBuzzer.play();
-            }
+            // if(buzzerOn){
+            //     passiveBuzzer.play();
+            // }
             if(alarmLedOn){
-                alarmLed.on();
+                anode.on();
+                anode.color("#FF0000");
+                anode.blink(1000);
             }
         }
     });
 
     console.log('Setting up button');
-
-    button = new five.Button(pins.button);
-    button.on("down", function(){
-        console.log("If alarm is active, turn it off");
-    });
+    // set up button
 
     console.log('Setting up buzzer');
-    passiveBuzzer = new five.Piezo(pins.buzzer);
+    // set up buzzer
 
     console.log('Setting up alarmLed');
-    // set up alarmLed
+    var anode = new five.Led.RGB({
+      pins: {
+        red: pins.alarmLed.red,
+        green: pins.alarmLed.green,
+        blue: pins.alarmLed.blue
+      },
+      isAnode: true
+    });
 
 
+    setClientActions();
+
+  console.log('Socket setup correctly');
+  console.log('Board setup correctly');
+});
+
+function setClientActions(){
     console.log('Setting up socket');
 
     io.on('connection', function(client) {
@@ -136,14 +152,6 @@ board.on('ready', function() {
 
     });
   });
-
-  console.log('Socket setup correctly');
-  console.log('Board setup correctly');
-});
-
-function printParameters(light, sound){
-    console.log('Light: ' + light);
-    console.log('Sound: ' + sound);
 }
 
 function checkDate(state){
