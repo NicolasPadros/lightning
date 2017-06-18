@@ -1,3 +1,5 @@
+/* ~~~~~~~~ No funciona bien, aparece que siempre está apretado ~~~~~~~~~~~ */
+
 var five = require("johnny-five");
 var Galileo = require("galileo-io");
 var board = new five.Board({
