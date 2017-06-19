@@ -161,7 +161,7 @@ function setClientActions(){
 
     client.on('setFinishTime', function(data){
         finishTime = data.value;
-    })
+    });
   });
 }
 

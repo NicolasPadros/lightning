@@ -63,6 +63,7 @@ board.on('ready', function() {
             else if(data === 0 && buttonPressed === false){
                 buttonPressed = true;
                 console.log("The button is pressed");
+                buttonPreviousStatus = 0;
             }
         });
     }, 500);
