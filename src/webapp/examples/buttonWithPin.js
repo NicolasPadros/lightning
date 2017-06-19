@@ -9,7 +9,6 @@ board.on("ready", function() {
   this.pinMode(12, this.MODES.INPUT);
 
   setInterval(function() {
-<<<<<<< HEAD
      board.digitalRead(12, function(data){
           console.log(data);
       });
