@@ -57,7 +57,7 @@ board.on('ready', function() {
        board.digitalRead(12, function(data){
             if(data === 1 && buttonPreviousStatus === 0){
                 console.log("1: Button is not pressed");
-                buttonStatus = 1;
+                buttonPreviousStatus = 1;
                 buttonPressed = false;
             }
             else if(data === 0 && buttonPressed === false){
