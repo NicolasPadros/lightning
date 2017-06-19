@@ -47,4 +47,21 @@ board.on('ready', function() {
     anode.color("#FF0000");
 
     anode.blink(1000);
+
+    var buttonPressed = false;
+    var buttonPreviousStatus = 0;
+
+    setInterval(function() {
+       board.digitalRead(12, function(data){
+            if(data === 1 && buttonPreviousStatus === 0){
+                console.log("1: Button is not pressed");
+                buttonStatus = 1;
+                buttonPressed = false;
+            }
+            else if(data === 0 && buttonPressed === false){
+                buttonPressed = true;
+                console.log("The button is pressed");
+            }
+        });
+    }, 500);
 });
