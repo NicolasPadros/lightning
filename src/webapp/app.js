@@ -84,7 +84,7 @@ board.on('ready', function() {
                 anode.color("#FF0000");
                 anode.blink(1000);
             }
-        }
+        }if(!turnAlarmOn) console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound)
     });
 
     console.log('Setting up button');
