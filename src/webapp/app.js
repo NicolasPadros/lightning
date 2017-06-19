@@ -38,7 +38,7 @@ var led = new five.Led(pins.led1); /* Luz dependiente del sistema de luces */
 var lightSystemActive = false; /* Señala si el sistema de luces está activo o no */
 var alarmSystemActive = false; /* Señala si el sistema de alarma está activo o no */
 var buzzerOn = false;
-var alarmLedActive = false;
+var alarmLedOn = false;
 var isTimeInsideInterval = false;
 var startTime;
 var finishTime;
