@@ -6,8 +6,8 @@ board.on("ready", function() {
   this.pinMode(12, this.MODES.INPUT);
 
   setInterval(function() {
-      digitalRead(12, function(data){
+     board.digitalRead(12, function(data){
           console.log(data);
       });
-  });
+  }, 10000);
 });
