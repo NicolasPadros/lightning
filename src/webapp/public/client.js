@@ -42,9 +42,9 @@ function emitChecked(emitValue, e){
     });
 }
 
-function emitValue(color, e) {
-    socket.emit('rgb', {
-        color: color,
+function emitValue(device, e) {
+    socket.emit('update', {
+        device: device,
         value: e.target.value
     });
 }
