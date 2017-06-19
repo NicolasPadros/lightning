@@ -18,30 +18,13 @@ var pins = {
 /* Cuando el Galileo Board está listo para operar, ejecuta la functión */
 board.on('ready', function() {
 
-    var photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 5000 });
-
+    var photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 2000 });
     photoresistor.on("data", function() {
-        console.log(this.value);
+        console.log("Photo data: " + this.value);
     });
 
     var mic = new five.Sensor({pin: pins.microphone, freq: 2000});
     mic.on("data", function() {
-        console.log(this.value);
-    });
-
-    var passiveBuzzer = new five.Piezo(pins.buzzer);
-    var alarmLed = new five.Led([pins.led1, pins.led2, pins.led3]);
-
-    var button = new five.Button(pins.button);
-    button.on("press", function(){
-        console.log("button was pressed");
-        passiveBuzzer.play();
-        alarmLed.on();
-    });
-
-    button.on("release", function(){
-        console.log("button was released");
-        passiveBuzzer.off();
-        alarmLed.off();
+        console.log("Mic data: " + this.value);
     });
 });
