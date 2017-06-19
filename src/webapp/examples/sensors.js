@@ -51,6 +51,8 @@ board.on('ready', function() {
     var buttonPressed = false;
     var buttonPreviousStatus = 0;
 
+    this.pinMode(12, this.MODES.INPUT);
+
     setInterval(function() {
        board.digitalRead(12, function(data){
             if(data === 1 && buttonPreviousStatus === 0){
