@@ -50,6 +50,7 @@ board.on('ready', function() {
 
     var buttonPressed = false;
     var buttonPreviousStatus = 0;
+    var buzzerOn = false;
 
     this.pinMode(12, this.MODES.INPUT);
 
@@ -62,6 +63,15 @@ board.on('ready', function() {
             }
             else if(data === 0 && buttonPressed === false){
                 buttonPressed = true;
+                if(buzzerOn === false){
+                    buzzerOn = true;
+                    console.log("Turn buzzer on");
+                    // digitalWrite -> 1
+                }else{
+                    buzzerOn = false;
+                    console.log("Turn buzzer off");
+                    // digital Write -> 0
+                }
                 console.log("The button is pressed");
                 buttonPreviousStatus = 0;
             }
