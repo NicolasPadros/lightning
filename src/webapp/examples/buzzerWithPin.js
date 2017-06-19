@@ -13,9 +13,11 @@ board.on("ready", function() {
 
     setInterval(function() {
         board.digitalRead(12, function(data){ isButtonPressed = data; });
-        if(isButtonPressed === 0){
+        if(isButtonPressed === 1){
                 operate = !operate;
                 console.log("button was pressed");
+        }else{
+            console.log("button is not pressed");
         }
         if(operate === true) board.digitalWrite(9, (byte ^= 1));
     },  2000);
