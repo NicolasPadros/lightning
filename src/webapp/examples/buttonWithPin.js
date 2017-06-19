@@ -10,8 +10,8 @@ board.on("ready", function() {
 
   setInterval(function() {
      board.digitalRead(12, function(data){
-          if(data === 1) console.log("Button was pressed");
-          else console.log("Button was not pressed");
+          if(data === 1) console.log("1: Button was not pressed");
+          else console.log("0: Button was pressed");
       });
   }, 500);
 });
