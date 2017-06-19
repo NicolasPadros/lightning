@@ -20,7 +20,7 @@ var pins = {
     led1: 11,
     led2: 12,
     led3: 13,
-    buzzer: 3,
+    buzzer: 4,
     button: 2,
     alarmLed: {
         red: 6,
@@ -37,7 +37,7 @@ var passiveBuzzer = null; /* Se prende al activarse la alarma */
 var led = new five.Led(pins.led1); /* Luz dependiente del sistema de luces */
 var lightSystemActive = false; /* Señala si el sistema de luces está activo o no */
 var alarmSystemActive = false; /* Señala si el sistema de alarma está activo o no */
-var buzzerActive = false;
+var buzzerOn = false;
 var alarmLedActive = false;
 var isTimeInsideInterval = false;
 var startTime;
@@ -76,9 +76,9 @@ board.on('ready', function() {
         var turnAlarmOn = this.value < state.sound;
         if(alarmSystemActive && turnAlarmOn){
             console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
-            // if(buzzerOn){
-            //     passiveBuzzer.play();
-            // }
+            if(buzzerOn){
+                toggleBuzzer();
+            }
             if(alarmLedOn){
                 anode.on();
                 anode.color("#FF0000");
@@ -88,10 +88,10 @@ board.on('ready', function() {
     });
 
     console.log('Setting up button');
-    // set up button
+    this.pinMode(pins.button, this.MODES.INPUT);
 
     console.log('Setting up buzzer');
-    // set up buzzer
+    // this.pinMode(pins.buzzer, this.MODES.OUTPUT);
 
     console.log('Setting up alarmLed');
     var anode = new five.Led.RGB({
@@ -163,6 +163,39 @@ function setClientActions(){
         finishTime = data.value;
     });
   });
+}
+
+function turnOffAlarm(){
+    setInterval(function() {
+       board.digitalRead(pins.button, function(data){
+
+            // The button is not pressed
+            if(data === 1 && buttonPreviousStatus === 0){
+                console.log("1: Button is not pressed");
+                buttonPreviousStatus = 1;
+                buttonPressed = false;
+            }
+
+            // The button is pressed;
+            else if(data === 0 && buttonPressed === false){
+                buttonPressed = true;
+                console.log("The button is pressed");
+                buttonPreviousStatus = 0;
+            }
+        });
+    }, 500);
+}
+
+function toggleBuzzer(){
+    if(buzzerOn === false){
+        buzzerOn = true;
+        console.log("Turn buzzer on");
+        // digitalWrite -> 1
+    }else{
+        buzzerOn = false;
+        console.log("Turn buzzer off");
+        // digital Write -> 0
+    }
 }
 
 function checkDate(){
