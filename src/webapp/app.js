@@ -122,6 +122,7 @@ function setClientActions(){
         state.light = data.device === 'light' ? data.value : state.light;
         state.sound = data.device === 'sound' ? data.value : state.sound;
 
+        console.log("New state-> Sound: " + state.sound + ", Light: " + state.light);
         client.emit('update', data);
         client.broadcast.emit('update', data);
     });
