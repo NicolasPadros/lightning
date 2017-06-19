@@ -39,6 +39,9 @@ var lightSystemActive = false; /* Señala si el sistema de luces está activo o 
 var alarmSystemActive = false; /* Señala si el sistema de alarma está activo o no */
 var buzzerActive = false;
 var alarmLedActive = false;
+var isTimeInsideInterval = false;
+var startTime;
+var finishTime;
 
 app.use(express.static(__dirname + '/public')); /* Usa todos los recursos estáticos del directorio public*/
 
@@ -151,20 +154,28 @@ function setClientActions(){
     client.on('saveValues', function(data){
 
     });
+
+    client.on('setStartTime', function(data){
+        startTime = data.value;
+    });
+
+    client.on('setFinishTime', function(data){
+        finishTime = data.value;
+    })
   });
 }
 
-function checkDate(state){
+function checkDate(){
     var date = new Date();
     var hours = date.getHours();
     var minutes = date.getMinutes();
-    var toCheck;
-    if(minutes < 30) toCheck = hours;
-    else toCheck = hours + 0.5;
-    return state.startHour < toCheck && state.finishHour > toCheck;
+    var timeToCheck;
+    if(minutes < 30) timeToCheck = hours;
+    else timeToCheck = hours + 0.5;
+    isTimeInsideInterval = startTime < timeToCheck && finishTime > timeToCheck;
 }
 
 port = process.env.PORT || 3000;
 
 server.listen(port);
-console.log(`Server listening on http://localhost:${port}`);
+console.log("Server listening on http://localhost:" + port);
