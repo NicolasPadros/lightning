@@ -128,10 +128,14 @@ function setClientActions(){
 
     client.on('toggleAlarmSystem', function(data) {
         alarmSystemActive = data.value;
+        if(alarmSystemActive) console.log("Alarm system is active!");
+        else console.log("Alarm is not active");
     });
 
     client.on('toggleLightSystem', function(data){
         lightSystemActive = data.value;
+        if(lightSystemActive) console.log("lightSystem is active!");
+        else console.log("lightSystem is not active");
     });
 
     client.on('toggleBuzzer', function(data){
