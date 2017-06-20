@@ -124,7 +124,7 @@ board.on('ready', function() {
     this.digitalWrite(pins.buzzer, 0);
 
     console.log('Setting up alarmLed');
-    var anode = new five.Led.RGB({
+    alarmLed = new five.Led.RGB({
       pins: {
         red: pins.alarmLed.red,
         green: pins.alarmLed.green,
@@ -209,9 +209,9 @@ function turnAlarmOn(){
         console.log("Buzzer is OOOOONNNNNN");
     }
     if(alarmLedOn){
-        anode.on();
-        anode.color("#FF0000");
-        anode.blink(1000);
+        alarmLed.on();
+        alarmLed.color("#FF0000");
+        alarmLed.blink(1000);
     }
 }
 
@@ -221,7 +221,7 @@ function turnAlarmOff(){
         console.log("Buzzer is OFF");
     }
     if(alarmLedOn){
-        anode.off();
+        alarmLed.off();
     }
 }
 
