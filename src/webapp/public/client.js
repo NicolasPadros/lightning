@@ -71,13 +71,17 @@ function setSocketActions(){
         socket.emit('join', 'Client is connected!');
     });
 
-    socket.on('rgb', function(data) {
-        var device = data.device;
-        document.getElementById(device).value = data.value;
-    });
-
     socket.on('toggleAlarmSystem', function(data){
         activeAlarmSystemCheckBox.checked = data;
+    });
+
+    socket.on('setSavedParameters', function(data){
+        light.value = data.light;
+        sound.value = data.sound;
+        activeBuzzerCheckbox.checked = data.buzzerOn;
+        rgbLedCheckbox.checked = data.alarmLedOn;
+        lightSystemCheckBox.checked = data.lightSystemActive;
+        alarmSystemCheckbox.checked = data.alarmSystemActive;
     });
 }
 

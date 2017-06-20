@@ -9,10 +9,9 @@ var Galileo = require("galileo-io");
 var board = new five.Board({
      io: new Galileo()
 });
+var jsonfile = require('jsonfile');
 
-var state = {
-  light: 1, sound: 1
-};
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Pin statements ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 var pins = {
     photoresistor: "A2",
@@ -29,23 +28,33 @@ var pins = {
     }
 };
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App Parameters ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+var state = {
+  light: 1, sound: 1
+};
+var buzzerOn = false;
+var alarmLedOn = false;
+var lightSystemActive = false; /* Señala si el sistema de luces está activo o no */
+var alarmSystemActive = false; /* Señala si el sistema de alarma está activo o no */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Sensor and Devices Variables ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 var photoresistor = null;
 var mic = null;
 var button = null; /* Apaga la alarma */
 var alarmLed = null; /* Se prende al activarse la alarma*/
 var passiveBuzzer = null; /* Se prende al activarse la alarma */
 var led; /* Luz dependiente del sistema de luces */
-var lightSystemActive = false; /* Señala si el sistema de luces está activo o no */
-var alarmSystemActive = false; /* Señala si el sistema de alarma está activo o no */
-var buzzerOn = false;
-var alarmLedOn = false;
-var buzzerAllowed = false;
-var alarmLedAllowed = false;
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Helper variables ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 var isTimeInsideInterval = false;
 var isAlarmOn = false;
 var socketClient = null;
 var startTime;
 var finishTime;
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Routes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 app.use(express.static(__dirname + '/public')); /* Usa todos los recursos estáticos del directorio public*/
 
@@ -53,6 +62,8 @@ app.use(express.static(__dirname + '/public')); /* Usa todos los recursos estát
 app.get('/', function(req, res, next) {
   res.sendFile('./index.html');
 });
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Board Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /* Cuando el Galileo Board está listo para operar, ejecuta la functión */
 board.on('ready', function() {
@@ -196,8 +207,12 @@ function setClientActions(){
         state.sound = 1;
     });
 
-    client.on('saveValues', function(data){
+    client.on('saveValues', function(){
+        saveParameteres();
+    });
 
+    client.on('defaultValues', function(){
+        setSavedParameters();
     });
 
     client.on('setStartTime', function(data){
@@ -228,7 +243,7 @@ function turnAlarmOff(){
     alarmSystemActive = false;
     board.digitalWrite(pins.buzzer, 0);
     console.log("Buzzer is OFF");
-    alarmLed.off();
+    alarmLed.stop();
     console.log("Alarm is now off");
     socketClient.emit('toggleAlarmSystem', false);
 }
@@ -241,6 +256,30 @@ function checkDate(){
     if(minutes < 30) timeToCheck = hours;
     else timeToCheck = hours + 0.5;
     isTimeInsideInterval = startTime < timeToCheck && finishTime > timeToCheck;
+}
+
+function setSavedParameters(){
+    var file = './resources/data.json';
+    var jsonParameters = jsonfile.readFileSync(file);
+
+    state.light = jsonParameters.light;
+    state.sound = jsonParameters.sound;
+    buzzerOn = jsonParameters.buzzerOn;
+    alarmLedOn = jsonParameters.alarmLedOn;
+    lightSystemActive = jsonParameters.lightSystemActive;
+    alarmSystemActive = jsonParameters.alarmSystemActive;
+
+    socketClient.emit('setSavedParameters', jsonParameters);
+}
+
+function saveParameteres(){
+
+    var file = './resources/data.json';
+    var obj = {light: light, sound: sound, buzzerOn: buzzerOn, alarmLedOn: alarmLedOn, lightSystemActive: lightSystemActive, alarmSystemActive: alarmSystemActive};
+
+    jsonfile.writeFileSync(file, obj, function (err) {
+      console.error(err);
+    });
 }
 
 port = process.env.PORT || 3000;

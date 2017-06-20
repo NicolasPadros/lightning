@@ -2,4 +2,6 @@ var jsonfile = require('jsonfile');
 
 var file = './resources/data.json';
 
-console.dir(jsonfile.readFileSync(file));
+jsonfile.readFile(file, function(err, obj){
+    console.log(obj.test);
+});
