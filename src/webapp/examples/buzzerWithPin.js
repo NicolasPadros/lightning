@@ -8,15 +8,17 @@ var buttonPin = 2;
 var buzzerPin = 9;
 
 board.on("ready", function() {
-    var isButtonPressed;
-    var operate = false;
+    var buttonPressed = false;
+    var buttonPreviousStatus = 0;
     var byte = 0;
 
     this.pinMode(buzzerPin, this.MODES.OUTPUT);
-
     this.pinMode(buttonPin, this.MODES.INPUT);
+
+    this.digitalWrite(buzzerPin, byte);
+
     setInterval(function() {
-       board.digitalRead(buttonPin, function(data){
+       this.digitalRead(buttonPin, function(data){
 
             // The button is not pressed
             if(data === 1 && buttonPreviousStatus === 0){
