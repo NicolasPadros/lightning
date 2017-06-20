@@ -21,7 +21,7 @@ var pins = {
     led2: 12,
     led3: 13,
     buzzer: 9,
-    button: 2,
+    button: 8,
     alarmLed: {
         red: 6,
         green: 5,
@@ -42,6 +42,7 @@ var alarmLedOn = false;
 var buzzerAllowed = false;
 var alarmLedAllowed = false;
 var isTimeInsideInterval = false;
+var isAlarmOn = false;
 var startTime;
 var finishTime;
 
@@ -67,6 +68,9 @@ board.on('ready', function() {
             led.on();
             console.log('Led is on because: ' + this.value + ' < ' +  state.light);
         }
+        else if(!turnLightOn){
+            console.log('Led is off because: ' + this.value + ' > ' +  state.light);
+        }
     });
 
     led = new five.Led(pins.led1);
@@ -80,19 +84,17 @@ board.on('ready', function() {
         var turnAlarmOn = this.value < state.sound;
         if(alarmSystemActive && turnAlarmOn){
             console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
-            if(buzzerOn){
-                toggleBuzzer();
-            }
-            if(alarmLedOn){
-                anode.on();
-                anode.color("#FF0000");
-                anode.blink(1000);
-            }
+            turnAlarmOn();
+            isAlarmOn = true;
         }if(!turnAlarmOn) console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
     });
 
     console.log('Setting up button');
     this.pinMode(pins.button, this.MODES.INPUT);
+
+    var buttonPreviousStatus = 0;
+    var buttonPressed = false;
+
     setInterval(function() {
        board.digitalRead(pins.button, function(data){
 
@@ -108,6 +110,8 @@ board.on('ready', function() {
                 buttonPressed = true;
                 console.log("The button is pressed");
                 buttonPreviousStatus = 0;
+                isAlarmOn = false;
+                turnAlarmOff();
             }
         });
     }, 500);
@@ -195,8 +199,24 @@ function setClientActions(){
   });
 }
 
-function toggleAlarm(){
+function turnAlarmOn(){
+    if(buzzerOn){
+        board.digitalWrite(pins.buzzer, 1);
+    }
+    if(alarmLedOn){
+        anode.on();
+        anode.color("#FF0000");
+        anode.blink(1000);
+    }
+}
 
+function turnAlarmOff(){
+    if(buzzerOn){
+        board.digitalWrite(pins.buzzer, 0);
+    }
+    if(alarmLedOn){
+        anode.off();
+    }
 }
 
 function toggleBuzzer(){
