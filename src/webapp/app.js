@@ -20,7 +20,7 @@ var pins = {
     led1: 11,
     led2: 12,
     led3: 13,
-    buzzer: 4,
+    buzzer: 9,
     button: 2,
     alarmLed: {
         red: 6,
@@ -34,11 +34,13 @@ var mic = null;
 var button = null; /* Apaga la alarma */
 var alarmLed = null; /* Se prende al activarse la alarma*/
 var passiveBuzzer = null; /* Se prende al activarse la alarma */
-var led = new five.Led(pins.led1); /* Luz dependiente del sistema de luces */
+var led; /* Luz dependiente del sistema de luces */
 var lightSystemActive = false; /* Señala si el sistema de luces está activo o no */
 var alarmSystemActive = false; /* Señala si el sistema de alarma está activo o no */
 var buzzerOn = false;
 var alarmLedOn = false;
+var buzzerAllowed = false;
+var alarmLedAllowed = false;
 var isTimeInsideInterval = false;
 var startTime;
 var finishTime;
@@ -53,14 +55,13 @@ app.get('/', function(req, res, next) {
 /* Cuando el Galileo Board está listo para operar, ejecuta la functión */
 board.on('ready', function() {
 
-    console.log('Setting up photoresistor');
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Light System Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+    console.log('Setting up photoresistor');
     /* Inicializo el photoresistor en el Pin y con la frecuencia en la que va a recabar datos */
     photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 2000 });
-
     /* función que se ejecuta cuando el photoresistor recaba información*/
     photoresistor.on("data", function() {
-
         var turnLightOn = this.value < state.light;
         if(lightSystemActive && turnLightOn){
             led.on();
@@ -68,8 +69,11 @@ board.on('ready', function() {
         }
     });
 
-    console.log('Setting up microphone');
+    led = new five.Led(pins.led1);
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Alarm System Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+    console.log('Setting up microphone');
     mic = new five.Sensor({pin: pins.microphone, freq: 2000});
     mic.on("data", function() {
 
@@ -84,11 +88,29 @@ board.on('ready', function() {
                 anode.color("#FF0000");
                 anode.blink(1000);
             }
-        }if(!turnAlarmOn) console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound)
+        }if(!turnAlarmOn) console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
     });
 
     console.log('Setting up button');
     this.pinMode(pins.button, this.MODES.INPUT);
+    setInterval(function() {
+       board.digitalRead(pins.button, function(data){
+
+            // The button is not pressed
+            if(data === 1 && buttonPreviousStatus === 0){
+                console.log("1: Button is not pressed");
+                buttonPreviousStatus = 1;
+                buttonPressed = false;
+            }
+
+            // The button is pressed;
+            else if(data === 0 && buttonPressed === false){
+                buttonPressed = true;
+                console.log("The button is pressed");
+                buttonPreviousStatus = 0;
+            }
+        });
+    }, 500);
 
     console.log('Setting up buzzer');
     // this.pinMode(pins.buzzer, this.MODES.OUTPUT);
@@ -103,12 +125,15 @@ board.on('ready', function() {
       isAnode: true
     });
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
     setClientActions();
 
-  console.log('Socket setup correctly');
-  console.log('Board setup correctly');
+    console.log('Socket setup correctly');
+    console.log('Board setup correctly');
 });
+
+
 
 function setClientActions(){
     console.log('Setting up socket');
@@ -170,36 +195,19 @@ function setClientActions(){
   });
 }
 
-function turnOffAlarm(){
-    setInterval(function() {
-       board.digitalRead(pins.button, function(data){
+function toggleAlarm(){
 
-            // The button is not pressed
-            if(data === 1 && buttonPreviousStatus === 0){
-                console.log("1: Button is not pressed");
-                buttonPreviousStatus = 1;
-                buttonPressed = false;
-            }
-
-            // The button is pressed;
-            else if(data === 0 && buttonPressed === false){
-                buttonPressed = true;
-                console.log("The button is pressed");
-                buttonPreviousStatus = 0;
-            }
-        });
-    }, 500);
 }
 
 function toggleBuzzer(){
     if(buzzerOn === false){
         buzzerOn = true;
         console.log("Turn buzzer on");
-        // digitalWrite -> 1
+        // board.digitalWrite(pins.buzzer, 1);
     }else{
         buzzerOn = false;
         console.log("Turn buzzer off");
-        // digital Write -> 0
+        // board.digitalWrite(pins.buzzer, 0);
     }
 }
 

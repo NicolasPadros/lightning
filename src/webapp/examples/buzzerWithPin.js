@@ -4,21 +4,34 @@ var board = new five.Board({
   io: new Galileo()
 });
 
+var buttonPin = 2;
+var buzzerPin = 9;
+
 board.on("ready", function() {
     var isButtonPressed;
     var operate = false;
     var byte = 0;
-    this.pinMode(12, this.MODES.INPUT);
-    this.pinMode(9, this.MODES.OUTPUT);
 
+    this.pinMode(buzzerPin, this.MODES.OUTPUT);
+
+    this.pinMode(buttonPin, this.MODES.INPUT);
     setInterval(function() {
-        board.digitalRead(12, function(data){ isButtonPressed = data; });
-        if(isButtonPressed === 1){
-                operate = !operate;
-                console.log("button was pressed");
-        }else{
-            console.log("button is not pressed");
-        }
-        if(operate === true) board.digitalWrite(9, (byte ^= 1));
-    },  2000);
+       board.digitalRead(buttonPin, function(data){
+
+            // The button is not pressed
+            if(data === 1 && buttonPreviousStatus === 0){
+                console.log("1: Button is not pressed");
+                buttonPreviousStatus = 1;
+                buttonPressed = false;
+            }
+
+            // The button is pressed;
+            else if(data === 0 && buttonPressed === false){
+                buttonPressed = true;
+                console.log("The button is pressed");
+                buttonPreviousStatus = 0;
+                this.digitalWrite(buzzerPin, (byte ^= 1));
+            }
+        });
+    }, 500);
 });
