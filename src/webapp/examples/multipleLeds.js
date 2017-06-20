@@ -7,13 +7,13 @@ var board = new five.Board({
 
 function setLeds(){
     led1 = new five.Led(13);
-    led1.blink();
+    led1.blink(1000);
     led2 = new five.Led(12);
-    led2.blink();
+    led2.blink(1000);
     led3 = new five.Led(11);
-    led3.blink();
+    led3.blink(1000);
 }
 
 board.on("ready", function() {
-  setLed();
+  setLeds();
 });
