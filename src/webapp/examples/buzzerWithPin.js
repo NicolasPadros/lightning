@@ -12,8 +12,8 @@ board.on("ready", function() {
     var buttonPreviousStatus = 0;
     var byte = 0;
 
-    this.pinMode(buzzerPin, this.MODES.OUTPUT);
-    // this.pinMode(buttonPin, this.MODES.INPUT);
+    // this.pinMode(buzzerPin, this.MODES.OUTPUT);
+    this.pinMode(buttonPin, this.MODES.INPUT);
 
     this.digitalWrite(buzzerPin, byte);
 
