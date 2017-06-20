@@ -17,8 +17,8 @@ board.on("ready", function() {
   setLed();
 
   board.repl.inject({
-      off: function(){
-          led.off();
+      stop: function(){
+          led.stop();
       }
   });
 });
