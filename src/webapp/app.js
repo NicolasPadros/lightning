@@ -43,6 +43,7 @@ var buzzerAllowed = false;
 var alarmLedAllowed = false;
 var isTimeInsideInterval = false;
 var isAlarmOn = false;
+var socketClient = null;
 var startTime;
 var finishTime;
 
@@ -89,6 +90,8 @@ board.on('ready', function() {
             flag = true;
         }if(!flag){
             console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
+        }else{
+            console.log("Alarm system is not active");
         }
     });
 
@@ -147,6 +150,7 @@ function setClientActions(){
     console.log('Setting up socket');
 
     io.on('connection', function(client) {
+        socketClient = client;
         client.on('join', function(handshake) {
         console.log(handshake);
     });
@@ -163,7 +167,10 @@ function setClientActions(){
     client.on('toggleAlarmSystem', function(data) {
         alarmSystemActive = data.value;
         if(alarmSystemActive) console.log("Alarm system is active!");
-        else console.log("Alarm is not active");
+        else{
+            console.log("Alarm is not active");
+            if(isAlarmOn) turnAlarmOff();
+        }
     });
 
     client.on('toggleLightSystem', function(data){
@@ -204,6 +211,7 @@ function setClientActions(){
 }
 
 function turnAlarmOn(){
+    isAlarmOn = true;
     if(buzzerOn){
         //board.digitalWrite(pins.buzzer, 1);
         console.log("Buzzer is OOOOONNNNNN");
@@ -216,25 +224,13 @@ function turnAlarmOn(){
 }
 
 function turnAlarmOff(){
-    if(buzzerOn){
-        board.digitalWrite(pins.buzzer, 0);
-        console.log("Buzzer is OFF");
-    }
-    if(alarmLedOn){
-        alarmLed.off();
-    }
-}
-
-function toggleBuzzer(){
-    if(buzzerOn === false){
-        buzzerOn = true;
-        console.log("Turn buzzer on");
-        // board.digitalWrite(pins.buzzer, 1);
-    }else{
-        buzzerOn = false;
-        console.log("Turn buzzer off");
-        // board.digitalWrite(pins.buzzer, 0);
-    }
+    isAlarmOn = false;
+    alarmSystemActive = false;
+    board.digitalWrite(pins.buzzer, 0);
+    console.log("Buzzer is OFF");
+    alarmLed.off();
+    console.log("Alarm is now off");
+    socketClient.emit('toggleAlarmSystem', false);
 }
 
 function checkDate(){

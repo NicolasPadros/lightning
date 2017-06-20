@@ -75,6 +75,10 @@ function setSocketActions(){
         var device = data.device;
         document.getElementById(device).value = data.value;
     });
+
+    socket.on('toggleAlarmSystem', function(data){
+        activeAlarmSystemCheckBox.checked = data;
+    });
 }
 
 
