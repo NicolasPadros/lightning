@@ -58,6 +58,8 @@ board.on('ready', function() {
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Light System Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+    led = new five.Led(pins.led1);
+
     console.log('Setting up photoresistor');
     /* Inicializo el photoresistor en el Pin y con la frecuencia en la que va a recabar datos */
     photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 2000 });
@@ -70,10 +72,9 @@ board.on('ready', function() {
         }
         else if(!turnLightOn){
             console.log('Led is off because: ' + this.value + ' > ' +  state.light);
+            led.off();
         }
     });
-
-    led = new five.Led(pins.led1);
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Alarm System Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -81,12 +82,14 @@ board.on('ready', function() {
     mic = new five.Sensor({pin: pins.microphone, freq: 2000});
     mic.on("data", function() {
 
-        var turnAlarmOn = this.value < state.sound;
-        if(alarmSystemActive && turnAlarmOn){
+        var flag = this.value < state.sound;
+        if(alarmSystemActive && flag){
             console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
             turnAlarmOn();
-            isAlarmOn = true;
-        }if(!turnAlarmOn) console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
+            flag = true;
+        }if(!flag){
+            console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
+        }
     });
 
     console.log('Setting up button');
@@ -117,7 +120,8 @@ board.on('ready', function() {
     }, 500);
 
     console.log('Setting up buzzer');
-    // this.pinMode(pins.buzzer, this.MODES.OUTPUT);
+    this.pinMode(pins.buzzer, this.MODES.OUTPUT);
+    this.digitalWrite(pins.buzzer, 0);
 
     console.log('Setting up alarmLed');
     var anode = new five.Led.RGB({
@@ -201,7 +205,8 @@ function setClientActions(){
 
 function turnAlarmOn(){
     if(buzzerOn){
-        board.digitalWrite(pins.buzzer, 1);
+        //board.digitalWrite(pins.buzzer, 1);
+        console.log("Buzzer is OOOOONNNNNN");
     }
     if(alarmLedOn){
         anode.on();
@@ -213,6 +218,7 @@ function turnAlarmOn(){
 function turnAlarmOff(){
     if(buzzerOn){
         board.digitalWrite(pins.buzzer, 0);
+        console.log("Buzzer is OFF");
     }
     if(alarmLedOn){
         anode.off();
