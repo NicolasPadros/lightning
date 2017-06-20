@@ -13,5 +13,5 @@ board.on("ready", function() {
           if(data === 1) console.log("1: Button was not pressed");
           else console.log("0: Button was pressed");
       });
-  }, 500);
+  }, 2000);
 });
