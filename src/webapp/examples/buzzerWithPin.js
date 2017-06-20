@@ -4,7 +4,7 @@ var board = new five.Board({
   io: new Galileo()
 });
 
-var buttonPin = 2;
+var buttonPin = 8;
 var buzzerPin = 9;
 
 board.on("ready", function() {
@@ -13,7 +13,7 @@ board.on("ready", function() {
     var byte = 0;
 
     this.pinMode(buzzerPin, this.MODES.OUTPUT);
-    // this.pinMode(buttonPin, this.MODES.INPUT);
+    this.pinMode(buttonPin, this.MODES.INPUT);
 
     this.digitalWrite(buzzerPin, byte);
 
@@ -32,7 +32,7 @@ board.on("ready", function() {
                 buttonPressed = true;
                 console.log("The button is pressed");
                 buttonPreviousStatus = 0;
-                // board.digitalWrite(buzzerPin, (byte ^= 1));
+                board.digitalWrite(buzzerPin, (byte ^= 1));
             }
         });
     }, 500);
