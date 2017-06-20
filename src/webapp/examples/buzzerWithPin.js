@@ -13,12 +13,12 @@ board.on("ready", function() {
     var byte = 0;
 
     this.pinMode(buzzerPin, this.MODES.OUTPUT);
-    this.pinMode(buttonPin, this.MODES.INPUT);
+    // this.pinMode(buttonPin, this.MODES.INPUT);
 
     this.digitalWrite(buzzerPin, byte);
 
     setInterval(function() {
-       this.digitalRead(buttonPin, function(data){
+       board.digitalRead(buttonPin, function(data){
 
             // The button is not pressed
             if(data === 1 && buttonPreviousStatus === 0){
@@ -32,7 +32,7 @@ board.on("ready", function() {
                 buttonPressed = true;
                 console.log("The button is pressed");
                 buttonPreviousStatus = 0;
-                this.digitalWrite(buzzerPin, (byte ^= 1));
+                // board.digitalWrite(buzzerPin, (byte ^= 1));
             }
         });
     }, 500);
