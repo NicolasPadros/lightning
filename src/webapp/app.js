@@ -142,7 +142,7 @@ board.on('ready', function() {
 
     console.log('Setting up buzzer');
     this.pinMode(pins.buzzer, this.MODES.OUTPUT);
-    this.digitalWrite(pins.buzzer, 0);
+    this.digitalWrite(pins.buzzer, 1);
 
     console.log('Setting up alarmLed');
     alarmLed = new five.Led.RGB({
@@ -235,7 +235,7 @@ function setClientActions(){
 function turnAlarmOn(){
     isAlarmOn = true;
     if(buzzerOn){
-        //board.digitalWrite(pins.buzzer, 1);
+        //board.digitalWrite(pins.buzzer, 0);
         console.log("Buzzer is OOOOONNNNNN");
     }
     if(alarmLedOn){
@@ -248,7 +248,7 @@ function turnAlarmOn(){
 function turnAlarmOff(){
     isAlarmOn = false;
     alarmSystemActive = false;
-    board.digitalWrite(pins.buzzer, 0);
+    board.digitalWrite(pins.buzzer, 1);
     console.log("Buzzer is OFF");
     alarmLed.stop();
     console.log("Alarm is now off");
@@ -266,7 +266,7 @@ function checkDate(){
 }
 
 function setSavedParameters(){
-    var file = './resources/data.json';
+    var file = './resources/parameters.json';
     var jsonParameters = jsonfile.readFileSync(file);
 
     state.light = jsonParameters.light;
@@ -281,7 +281,7 @@ function setSavedParameters(){
 
 function saveParameteres(){
 
-    var file = './resources/data.json';
+    var file = './resources/parameters.json';
     var obj = {light: state.light, sound: state.sound, buzzerOn: buzzerOn, alarmLedOn: alarmLedOn, lightSystemActive: lightSystemActive, alarmSystemActive: alarmSystemActive};
 
     jsonfile.writeFileSync(file, obj, function (err) {
