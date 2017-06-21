@@ -86,6 +86,7 @@ board.on('ready', function() {
             console.log('Led is off because: ' + this.value + ' > ' +  state.light);
             led.off();
         }
+        socketClient.emit('lightUpdate', this.value);
     });
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Alarm System Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -104,6 +105,7 @@ board.on('ready', function() {
         }else{
             console.log("Alarm system is not active");
         }
+        socketClient.emit('soundUpdate', this.value);
     });
 
     console.log('Setting up button');

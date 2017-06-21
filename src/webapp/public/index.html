@@ -18,7 +18,7 @@
         </nav>
 
 
-        
+
 
             <div class="article-containter">
                 <!-- <div class="StartButton">
@@ -26,19 +26,13 @@
                 </div> -->
                 <article>
                   <h1>Photoresistor</h1>
-                   Light intensity:  <input type="range" min="0" max="1023" step="1" value="0" id="light">
+                   Light intensity:  <input type="range" min="0" max="1023" step="1" value="0" id="light" oninput="updateLightValue(this.val)">
                     <input id="lightSystemCheckBox" type="checkbox" name="option1" value="EnablePhoto">
                     Enable/Disable<br>
-                    
-                    
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input class="hola" type="text" name="lightValue" value="Aca va el fijo">
-                    Actual Reading: <input type="text" name="lightActualValue" value="0000">
-                    
+
+                    <input class="hola" type="text" id="lightValue" name="lightValue" value="Aca va el fijo" readonly>
+                    Actual Reading: <input type="text" id="sensorLightValue" name="lightActualValue" value="0000" readonly>
+
                     <br>
                   <!-- <input id="led1Radio" type="radio" name="gender" value="led1">Led 1<br>
                   <input id="led2Radio" type="radio" name="gender" value="led2">Led 2<br>
@@ -52,19 +46,15 @@
 <!--                </article>-->
                 <article>
                    <h1>Alarm</h1>
-                   Sound Sensor Decibels:  <input type="range" min="500" max="1023" step="1" value="0" id="sound">
+                   Sound Sensor Decibels:  <input type="range" min="500" max="1023" step="1" value="0" id="sound" oninput="updateSoundValue(this.value)">
                     <input id="alarmSystemCheckbox" type="checkbox" name="option1" value="EnableAlarm"> Enable/Disable<br>
-                    
-                    
-                    
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" name="soundValue" value="Aca va el fijo">
-                    Actual Reading: <input type="text" name="soundActualValue" value="Aca va el que se lee">
-                        
+
+
+
+
+                    <input type="text" id="soundValue" name="soundValue" value="Aca va el fijo" readonly>
+                    Actual Reading: <input id="sensorSoundValue" type="text" name="soundActualValue" value="Aca va el que se lee" readonly>
+
                     <br>
                     <br>
                     <input id="activeBuzzerCheckbox" type="checkbox" name="option1" value="ActiveBuzzer"> Active Buzzer<br>
@@ -77,7 +67,7 @@
                 </article>
             </div>
 
-        
+
 
         <footer>
             <p>Tomas Fernandez Martinez & Nicolas Velazquez</p>

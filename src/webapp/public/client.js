@@ -20,6 +20,10 @@ $(document).ready(function(){
     addEventListeners();
     //
     setSocketActions();
+
+    document.getElementById('light').oninput = function(){
+        document.getElementById('soundValue').value =
+    }
 });
 
 function prepareDOMVariables(){
@@ -34,6 +38,14 @@ function prepareDOMVariables(){
     activeAlarmSystemCheckBox =  document.getElementById('alarmSystemCheckbox');
     saveButton = document.getElementById('saveButton');
     defaultButton = document.getElementById('defaultButton');
+}
+
+function updateLightValue(value){
+    document.getElementById('lightValue').value = value;
+}
+
+function updateSoundValue(value){
+    document.getElementById('soundValue').value = value;
 }
 
 function emitChecked(emitValue, e){
@@ -82,6 +94,14 @@ function setSocketActions(){
         rgbLedCheckbox.checked = data.alarmLedOn;
         lightSystemCheckBox.checked = data.lightSystemActive;
         alarmSystemCheckbox.checked = data.alarmSystemActive;
+    });
+
+    socket.on('lightUpdate', function(data){
+        document.getElementById('sensorLightValue').value = data;
+    });
+
+    socket.on('soundUpdate', function(data){
+        document.getElementById('sensorSoundValue').value = data;
     });
 }
 
