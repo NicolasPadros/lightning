@@ -282,11 +282,16 @@ function setSavedParameters(){
 function saveParameteres(){
 
     var file = './resources/parameters.json';
-    var obj = {light: state.light, sound: state.sound, buzzerOn: buzzerOn, alarmLedOn: alarmLedOn, lightSystemActive: lightSystemActive, alarmSystemActive: alarmSystemActive};
+    var obj = {light: state.light, sound: state.sound, buzzerOn: buzzerOn.toString(), alarmLedOn: alarmLedOn.toString(), lightSystemActive: lightSystemActive.toString(), alarmSystemActive: alarmSystemActive.toString()};
 
     jsonfile.writeFileSync(file, obj, function (err) {
       console.error(err);
     });
+}
+
+function parseBoolean(string){
+    if(string === 'true') return true;
+    else return false;
 }
 
 port = process.env.PORT || 3000;
