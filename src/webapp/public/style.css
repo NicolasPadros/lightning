@@ -99,3 +99,10 @@ article {
     border-left: 1px solid gray;
     
 }
+
+input[type="text"] {
+    color:#;
+    font: 0.9em/0em Arial, Helvetica, sans-serif;
+    background-color: aliceblue;
+    width: 35px;
+}
