@@ -95,17 +95,22 @@ board.on('ready', function() {
     mic = new five.Sensor({pin: pins.microphone, freq: 2000});
     mic.on("data", function() {
 
-        var flag = this.value < state.sound;
-        if(alarmSystemActive && flag){
-            console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
-            turnAlarmOn();
-            flag = true;
-        }if(!flag){
-            console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
+        if(!isAlarmOn){
+            var flag = this.value < state.sound;
+            if(alarmSystemActive && flag){
+                console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
+                turnAlarmOn();
+                flag = true;
+            }if(!flag){
+                console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
+            }else{
+                console.log("Alarm system is not active");
+            }
+            if(socketClient !== null) socketClient.emit('soundUpdate', this.value);
         }else{
-            console.log("Alarm system is not active");
+            console.log("AAAAAAALLLLLLLAAAAAAAARRRRRRRRMMMMMM");
         }
-        if(socketClient !== null) socketClient.emit('soundUpdate', this.value);
+
     });
 
     console.log('Setting up button');
