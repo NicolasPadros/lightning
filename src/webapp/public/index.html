@@ -26,11 +26,14 @@
                 </div> -->
                 <article>
                   <h1>Photoresistor</h1>
+                   
+                    <div class="Li-Da">Lighter Darker</div>
+                    <br>
                    Light intensity:  <input type="range" min="0" max="1023" step="1" value="0" id="light" oninput="updateLightValue(this.value)">
                     <input id="lightSystemCheckBox" type="checkbox" name="option1" value="EnablePhoto">
                     Enable/Disable<br>
 
-                    <input class="hola" type="text" id="lightValue" name="lightValue" value="Aca va el fijo" readonly>
+                    <input class="hola" type="text" id="lightValue" name="lightValue" value="---" readonly>
                     Actual Reading: <input type="text" id="sensorLightValue" name="lightActualValue" value="0000" readonly>
 
                     <br>
@@ -52,8 +55,8 @@
 
 
 
-                    <input type="text" id="soundValue" name="soundValue" value="Aca va el fijo" readonly>
-                    Actual Reading: <input id="sensorSoundValue" type="text" name="soundActualValue" value="Aca va el que se lee" readonly>
+                    <input type="text" id="soundValue" name="soundValue" value="---" readonly>
+                    Actual Reading: <input id="sensorSoundValue" type="text" name="soundActualValue" value="0000" readonly>
 
                     <br>
                     <br>
