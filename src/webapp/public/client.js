@@ -20,10 +20,6 @@ $(document).ready(function(){
     addEventListeners();
     //
     setSocketActions();
-
-    document.getElementById('light').oninput = function(){
-        document.getElementById('soundValue').value =
-    }
 });
 
 function prepareDOMVariables(){
