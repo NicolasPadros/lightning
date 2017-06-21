@@ -282,7 +282,7 @@ function setSavedParameters(){
 function saveParameteres(){
 
     var file = './resources/data.json';
-    var obj = {light: light, sound: sound, buzzerOn: buzzerOn, alarmLedOn: alarmLedOn, lightSystemActive: lightSystemActive, alarmSystemActive: alarmSystemActive};
+    var obj = {light: state.light, sound: state.sound, buzzerOn: buzzerOn, alarmLedOn: alarmLedOn, lightSystemActive: lightSystemActive, alarmSystemActive: alarmSystemActive};
 
     jsonfile.writeFileSync(file, obj, function (err) {
       console.error(err);
