@@ -291,7 +291,7 @@ function saveParameteres(){
 
     console.log(obj);
 
-    jsonfile.writeFileSync(file, obj, function (err) {
+    jsonfile.writeFile(file, obj, function (err) {
       console.error(err);
     });
 }
