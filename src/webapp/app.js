@@ -1,14 +1,14 @@
 // ~~~~~~~~~~~~~~~~~~~~~~ http://blog.ricardofilipe.com/post/getting-started-arduino-johhny-five ~~
 
-// var five = require('johnny-five');
+var five = require('johnny-five');
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-// var Galileo = require("galileo-io");
-// var board = new five.Board({
-//      io: new Galileo()
-// });
+var Galileo = require("galileo-io");
+var board = new five.Board({
+     io: new Galileo()
+});
 var jsonfile = require('jsonfile');
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Pin statements ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
