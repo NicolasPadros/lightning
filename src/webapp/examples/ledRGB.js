@@ -16,7 +16,12 @@ board.on("ready", function() {
 
   // Add led to REPL (optional)
   this.repl.inject({
-    anode: anode
+      stop: function(){
+          anode.stop();
+      },
+      off: function(){
+          anode.off();
+      }
   });
 
   // Turn it on and set the initial color

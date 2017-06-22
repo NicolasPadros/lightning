@@ -247,6 +247,7 @@ function turnAlarmOff(){
     board.digitalWrite(pins.buzzer, 1);
     console.log("Buzzer is OFF");
     alarmLed.stop();
+    alarmLed.off();
     console.log("Alarm is now off");
     socketClient.emit('toggleAlarmSystem', false);
 }
