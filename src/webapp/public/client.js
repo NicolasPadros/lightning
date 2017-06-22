@@ -84,13 +84,18 @@ function setSocketActions(){
     });
 
     socket.on('setSavedParameters', function(data){
-        light.value = parseBoolean(data.light);
-        sound.value = parseBoolean(data.sound);
+        light.value = parseInt(data.light);
+        sound.value = parseInt(data.sound);
         activeBuzzerCheckbox.checked = parseBoolean(data.buzzerOn);
         rgbLedCheckbox.checked = parseBoolean(data.alarmLedOn);
         activeLightSystemCheckBox.checked = parseBoolean(data.lightSystemActive);
         activeAlarmSystemCheckBox.checked = parseBoolean(data.alarmSystemActive);
-        
+        alert(data.light);
+	alert(data.sound);
+	alert(data.buzzerOn);
+	alert(data.alarmLedOn);
+	alert(data.lightSystemActive);
+	alert(data.alarmSystemActive);
     });
 
     socket.on('lightUpdate', function(data){

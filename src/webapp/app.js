@@ -183,7 +183,7 @@ function setClientActions(){
     });
 
     client.on('toggleAlarmSystem', function(data) {
-        // alarmSystemActive = data.value;
+        alarmSystemActive = data.value;
         // if(alarmSystemActive) console.log("Alarm system is active!");
         // else{
         //     console.log("Alarm is not active");
@@ -192,7 +192,7 @@ function setClientActions(){
     });
 
     client.on('toggleLightSystem', function(data){
-        // lightSystemActive = data.value;
+        lightSystemActive = data.value;
         // if(lightSystemActive) console.log("lightSystem is active!");
         // else{
         //     console.log("lightSystem is not active");
@@ -289,7 +289,7 @@ function saveParameteres(){
 
     console.log(obj);
 
-    jsonfile.writeFileSync(file, obj, function (err) {
+    jsonfile.writeFile(file, obj, function (err) {
       console.error(err);
     });
 }
