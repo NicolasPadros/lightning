@@ -16,6 +16,8 @@ $(document).ready(function(){
     socket = io.connect(window.location.hostname + ':' + 3000);
 
     prepareDOMVariables();
+
+
     //
     addEventListeners();
     //
@@ -84,18 +86,7 @@ function setSocketActions(){
     });
 
     socket.on('setSavedParameters', function(data){
-        light.value = parseInt(data.light);
-        sound.value = parseInt(data.sound);
-        activeBuzzerCheckbox.checked = parseBoolean(data.buzzerOn);
-        rgbLedCheckbox.checked = parseBoolean(data.alarmLedOn);
-        activeLightSystemCheckBox.checked = parseBoolean(data.lightSystemActive);
-        activeAlarmSystemCheckBox.checked = parseBoolean(data.alarmSystemActive);
-        alert(data.light);
-	alert(data.sound);
-	alert(data.buzzerOn);
-	alert(data.alarmLedOn);
-	alert(data.lightSystemActive);
-	alert(data.alarmSystemActive);
+        asignParameters(data);
     });
 
     socket.on('lightUpdate', function(data){
@@ -107,6 +98,14 @@ function setSocketActions(){
     });
 }
 
+function asignParameters(data){
+    light.value = parseInt(data.light);
+    sound.value = parseInt(data.sound);
+    activeBuzzerCheckbox.checked = parseBoolean(data.buzzerOn);
+    rgbLedCheckbox.checked = parseBoolean(data.alarmLedOn);
+    activeLightSystemCheckBox.checked = parseBoolean(data.lightSystemActive);
+    activeAlarmSystemCheckBox.checked = parseBoolean(data.alarmSystemActive);
+}
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
