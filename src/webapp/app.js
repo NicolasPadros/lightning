@@ -268,10 +268,10 @@ function setSavedParameters(){
 
     state.light = jsonParameters.light;
     state.sound = jsonParameters.sound;
-    buzzerOn = jsonParameters.buzzerOn;
-    alarmLedOn = jsonParameters.alarmLedOn;
-    lightSystemActive = jsonParameters.lightSystemActive;
-    alarmSystemActive = jsonParameters.alarmSystemActive;
+    buzzerOn = parseBoolean(jsonParameters.buzzerOn);
+    alarmLedOn = parseBoolean(jsonParameters.alarmLedOn);
+    lightSystemActive = parseBoolean(jsonParameters.lightSystemActive);
+    alarmSystemActive = parseBoolean(jsonParameters.alarmSystemActive);
 
     console.log(jsonParameters);
 
@@ -294,6 +294,11 @@ function saveParameteres(){
     jsonfile.writeFile(file, obj, function (err) {
       console.error(err);
     });
+}
+
+function parseBoolean(string){
+    if(string === 'true') return true;
+    else return false;
 }
 
 port = process.env.PORT || 3000;
