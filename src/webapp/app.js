@@ -77,13 +77,13 @@ board.on('ready', function() {
     photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 2000 });
     /* función que se ejecuta cuando el photoresistor recaba información*/
     photoresistor.on("data", function() {
-        var turnLightOn = this.value > state.light;
+        var turnLightOn = this.value < state.light;
         if(lightSystemActive && turnLightOn){
             led.on();
-            console.log('Led is on because: ' + this.value + ' > ' +  state.light);
+            console.log('Led is on because: ' + this.value + ' < ' +  state.light);
         }
         else if(!turnLightOn){
-            console.log('Led is off because: ' + this.value + ' < ' +  state.light);
+            console.log('Led is off because: ' + this.value + ' > ' +  state.light);
             led.off();
         }
         if(socketClient !== null) socketClient.emit('lightUpdate', this.value);

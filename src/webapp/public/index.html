@@ -26,15 +26,15 @@
                 </div> -->
                 <article>
                   <h1>Photoresistor</h1>
-                   
+
                     <div class="Li-Da">Lighter Darker</div>
                     <br>
                    Light intensity:  <input type="range" min="0" max="1023" step="1" value="0" id="light" oninput="updateLightValue(this.value)">
                     <input id="lightSystemCheckBox" type="checkbox" name="option1" value="EnablePhoto">
                     Enable/Disable<br>
 
-                    <input class="hola" type="text" id="lightValue" name="lightValue" value="---" readonly>
-                    Actual Reading: <input type="text" id="sensorLightValue" name="lightActualValue" value="0000" readonly>
+                    <input class="hola" type="text" id="lightValue" name="lightValue" value="0" readonly>
+                    Actual Reading: <input type="text" id="sensorLightValue" name="lightActualValue" value="0" readonly>
 
                     <br>
                   <!-- <input id="led1Radio" type="radio" name="gender" value="led1">Led 1<br>
@@ -49,7 +49,7 @@
 <!--                </article>-->
                 <article>
                    <h1>Alarm</h1>
-                   Sound Sensor Decibels:  <input type="range" min="500" max="1023" step="1" value="0" id="sound" oninput="updateSoundValue(this.value)">
+                   Sound Sensor Decibels:  <input type="range" min="0" max="1023" step="1" value="0" id="sound" oninput="updateSoundValue(this.value)">
                     <input id="alarmSystemCheckbox" type="checkbox" name="option1" value="EnableAlarm"> Enable/Disable<br>
 
 
