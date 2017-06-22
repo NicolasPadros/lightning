@@ -66,101 +66,101 @@ app.get('/', function(req, res, next) {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Board Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /* Cuando el Galileo Board está listo para operar, ejecuta la functión */
-// board.on('ready', function() {
+board.on('ready', function() {
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Light System Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-    // led = new five.Led(pins.led1);
-    //
-    // console.log('Setting up photoresistor');
-    // /* Inicializo el photoresistor en el Pin y con la frecuencia en la que va a recabar datos */
-    // photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 2000 });
-    // /* función que se ejecuta cuando el photoresistor recaba información*/
-    // photoresistor.on("data", function() {
-    //     var turnLightOn = this.value > state.light;
-    //     if(lightSystemActive && turnLightOn){
-    //         led.on();
-    //         console.log('Led is on because: ' + this.value + ' > ' +  state.light);
-    //     }
-    //     else if(!turnLightOn){
-    //         console.log('Led is off because: ' + this.value + ' < ' +  state.light);
-    //         led.off();
-    //     }
-    //     if(socketClient !== null) socketClient.emit('lightUpdate', this.value);
-    // });
+    led = new five.Led(pins.led1);
+
+    console.log('Setting up photoresistor');
+    /* Inicializo el photoresistor en el Pin y con la frecuencia en la que va a recabar datos */
+    photoresistor = new five.Sensor({pin: pins.photoresistor, freq: 2000 });
+    /* función que se ejecuta cuando el photoresistor recaba información*/
+    photoresistor.on("data", function() {
+        var turnLightOn = this.value > state.light;
+        if(lightSystemActive && turnLightOn){
+            led.on();
+            console.log('Led is on because: ' + this.value + ' > ' +  state.light);
+        }
+        else if(!turnLightOn){
+            console.log('Led is off because: ' + this.value + ' < ' +  state.light);
+            led.off();
+        }
+        if(socketClient !== null) socketClient.emit('lightUpdate', this.value);
+    });
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Alarm System Setup ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-    // console.log('Setting up microphone');
-    // mic = new five.Sensor({pin: pins.microphone, freq: 2000});
-    // mic.on("data", function() {
-    //
-    //     if(!isAlarmOn){
-    //         var flag = this.value < state.sound;
-    //         if(alarmSystemActive && flag){
-    //             console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
-    //             turnAlarmOn();
-    //             flag = true;
-    //         }if(!flag){
-    //             console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
-    //         }else{
-    //             console.log("Alarm system is not active");
-    //         }
-    //         if(socketClient !== null) socketClient.emit('soundUpdate', this.value);
-    //     }else{
-    //         console.log("AAAAAAALLLLLLLAAAAAAAARRRRRRRRMMMMMM");
-    //     }
-    //
-    // });
-    //
-    // console.log('Setting up button');
-    // this.pinMode(pins.button, this.MODES.INPUT);
-    //
-    // var buttonPreviousStatus = 0;
-    // var buttonPressed = false;
-    //
-    // setInterval(function() {
-    //    board.digitalRead(pins.button, function(data){
-    //
-    //         // The button is not pressed
-    //         if(data === 1 && buttonPreviousStatus === 0){
-    //             console.log("1: Button is not pressed");
-    //             buttonPreviousStatus = 1;
-    //             buttonPressed = false;
-    //         }
-    //
-    //         // The button is pressed;
-    //         else if(data === 0 && buttonPressed === false){
-    //             buttonPressed = true;
-    //             console.log("The button is pressed");
-    //             buttonPreviousStatus = 0;
-    //             isAlarmOn = false;
-    //             turnAlarmOff();
-    //         }
-    //     });
-    // }, 500);
-    //
-    // console.log('Setting up buzzer');
-    // this.pinMode(pins.buzzer, this.MODES.OUTPUT);
-    // this.digitalWrite(pins.buzzer, 1);
-    //
-    // console.log('Setting up alarmLed');
-    // alarmLed = new five.Led.RGB({
-    //   pins: {
-    //     red: pins.alarmLed.red,
-    //     green: pins.alarmLed.green,
-    //     blue: pins.alarmLed.blue
-    //   },
-    //   isAnode: true
-    // });
+    console.log('Setting up microphone');
+    mic = new five.Sensor({pin: pins.microphone, freq: 2000});
+    mic.on("data", function() {
+
+        if(!isAlarmOn){
+            var flag = this.value < state.sound;
+            if(alarmSystemActive && flag){
+                console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
+                turnAlarmOn();
+                flag = true;
+            }if(!flag){
+                console.log('Turn off alarm because: ' + this.value + ' > ' + state.sound);
+            }else{
+                console.log("Alarm system is not active");
+            }
+            if(socketClient !== null) socketClient.emit('soundUpdate', this.value);
+        }else{
+            console.log("AAAAAAALLLLLLLAAAAAAAARRRRRRRRMMMMMM");
+        }
+
+    });
+
+    console.log('Setting up button');
+    this.pinMode(pins.button, this.MODES.INPUT);
+
+    var buttonPreviousStatus = 0;
+    var buttonPressed = false;
+
+    setInterval(function() {
+       board.digitalRead(pins.button, function(data){
+
+            // The button is not pressed
+            if(data === 1 && buttonPreviousStatus === 0){
+                console.log("1: Button is not pressed");
+                buttonPreviousStatus = 1;
+                buttonPressed = false;
+            }
+
+            // The button is pressed;
+            else if(data === 0 && buttonPressed === false){
+                buttonPressed = true;
+                console.log("The button is pressed");
+                buttonPreviousStatus = 0;
+                isAlarmOn = false;
+                turnAlarmOff();
+            }
+        });
+    }, 500);
+
+    console.log('Setting up buzzer');
+    this.pinMode(pins.buzzer, this.MODES.OUTPUT);
+    this.digitalWrite(pins.buzzer, 1);
+
+    console.log('Setting up alarmLed');
+    alarmLed = new five.Led.RGB({
+      pins: {
+        red: pins.alarmLed.red,
+        green: pins.alarmLed.green,
+        blue: pins.alarmLed.blue
+      },
+      isAnode: true
+    });
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
     setClientActions();
-//
-//     console.log('Socket setup correctly');
-//     console.log('Board setup correctly');
-// });
+
+    console.log('Socket setup correctly');
+    console.log('Board setup correctly');
+});
 
 
 
@@ -185,20 +185,20 @@ function setClientActions(){
 
     client.on('toggleAlarmSystem', function(data) {
          alarmSystemActive = data.value;
-        // if(alarmSystemActive) console.log("Alarm system is active!");
-        // else{
-        //     console.log("Alarm is not active");
-        //     if(isAlarmOn) turnAlarmOff();
-        // }
+        if(alarmSystemActive) console.log("Alarm system is active!");
+        else{
+            console.log("Alarm is not active");
+            if(isAlarmOn) turnAlarmOff();
+        }
     });
 
     client.on('toggleLightSystem', function(data){
          lightSystemActive = data.value;
-        // if(lightSystemActive) console.log("lightSystem is active!");
-        // else{
-        //     console.log("lightSystem is not active");
-        //     led.off();
-        // }
+        if(lightSystemActive) console.log("lightSystem is active!");
+        else{
+            console.log("lightSystem is not active");
+            led.off();
+        }
     });
 
     client.on('toggleBuzzer', function(data){
@@ -231,7 +231,7 @@ function setClientActions(){
 function turnAlarmOn(){
     isAlarmOn = true;
     if(buzzerOn){
-        //board.digitalWrite(pins.buzzer, 0);
+        board.digitalWrite(pins.buzzer, 0);
         console.log("Buzzer is OOOOONNNNNN");
     }
     if(alarmLedOn){
