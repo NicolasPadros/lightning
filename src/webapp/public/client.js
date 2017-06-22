@@ -84,12 +84,13 @@ function setSocketActions(){
     });
 
     socket.on('setSavedParameters', function(data){
-        light.value = data.light;
-        sound.value = data.sound;
-        activeBuzzerCheckbox.checked = data.buzzerOn;
-        rgbLedCheckbox.checked = data.alarmLedOn;
-        lightSystemCheckBox.checked = data.lightSystemActive;
-        alarmSystemCheckbox.checked = data.alarmSystemActive;
+        light.value = parseBoolean(data.light);
+        sound.value = parseBoolean(data.sound);
+        activeBuzzerCheckbox.checked = parseBoolean(data.buzzerOn);
+        rgbLedCheckbox.checked = parseBoolean(data.alarmLedOn);
+        activeLightSystemCheckBox.checked = parseBoolean(data.lightSystemActive);
+        activeAlarmSystemCheckBox.checked = parseBoolean(data.alarmSystemActive);
+        
     });
 
     socket.on('lightUpdate', function(data){
@@ -106,6 +107,11 @@ function setSocketActions(){
 toggle between hiding and showing the dropdown content */
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function parseBoolean(string){
+    if(string === 'true') return true;
+    else return false;
 }
 
 // Close the dropdown menu if the user clicks outside of it
