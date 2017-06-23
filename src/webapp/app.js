@@ -96,7 +96,7 @@ board.on('ready', function() {
     mic.on("data", function() {
 
         if(!isAlarmOn){
-            var flag = this.value < state.sound;
+            var flag = this.value > state.sound;
             if(alarmSystemActive && flag){
                 console.log('Turn on alarm because: ' + this.value + ' < ' + state.sound);
                 turnAlarmOn();
@@ -249,7 +249,7 @@ function turnAlarmOff(){
     alarmLed.stop();
     alarmLed.off();
     console.log("Alarm is now off");
-    if(socketClient != null) socketClient.emit('toggleAlarmSystem', false);
+    if(socketClient !== null) socketClient.emit('toggleAlarmSystem', false);
 }
 
 function checkDate(){
