@@ -249,7 +249,7 @@ function turnAlarmOff(){
     alarmLed.stop();
     alarmLed.off();
     console.log("Alarm is now off");
-    socketClient.emit('toggleAlarmSystem', false);
+    if(socketClient != null) socketClient.emit('toggleAlarmSystem', false);
 }
 
 function checkDate(){
