@@ -103,8 +103,9 @@ article {
 input[type="text"] {
     color:#;
     font: 0.9em/0em Arial, Helvetica, sans-serif;
-    background-color: aliceblue;
+    background-color: antiquewhite;
     width: 35px;
+    border: 0px;
 }
 
 div.Li-Da{
